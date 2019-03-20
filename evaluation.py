@@ -1,6 +1,8 @@
 import numpy as np
+from datetime import datetime
 
 from aggregate import get_channels_bias_avg, get_channels_bias_max
+from aggregate import get_labels_from_proba
 from neural_network import create_nn_clf
 from logistic_regression import create_clf
 from preprocessing import split_channel
@@ -24,7 +26,10 @@ def evaluate_nn(
     verbose=0
 ):
     if debug:
-        print('Experiment:')
+        now = datetime.now()
+        now.year, now.month, now.day, now.hour, now.minute, now.second
+        print(
+            f'Experiment: {now.year}.{now.month}.{now.day} {now.hour}:{now.minute}:{now.second}')
         print(f'Clf type: {clf_type}')
         print(f'Aggregation options: {aggregation_options}')
         print(f'Transformation options: {transformation_options}')
@@ -46,7 +51,7 @@ def evaluate_nn(
         # split
         X_train_channels = data.iloc[train_index]
         X_test_channels = data.iloc[test_index]
-        y_train_channels = labels.iloc[train_index],
+        y_train_channels = labels.iloc[train_index]
         y_test_channels = labels.iloc[test_index]
 
         # transform to features
@@ -115,22 +120,28 @@ def evaluate_nn(
         experiments_times.append(end-start)
 
         if debug:
+            print_line()
             print_fold_results('videos', videos_test_acc, videos_train_acc)
             print_fold_results('videos', channels_test_acc, channels_train_acc)
             print(f'Done with split: {index + 1} ({end-start})')
 
     if debug:
+        print_line()
         print_results('videos test', videos_test_scores)
         print_results('videos train', videos_train_scores)
-        print_results('channels tests', channels_test_acc)
-        print_results('channels train', channels_train_acc)
+        print_results('channels test', channels_test_scores)
+        print_results('channels train', channels_train_scores)
 
     return (channels_test_scores,
             channels_train_scores,
             videos_test_scores,
             videos_train_scores,
             experiments_times,
-            nn_args)
+            nn_arch)
+
+
+def print_line():
+    print('------------------')
 
 
 def print_fold_results(result_type, test, train):
@@ -139,4 +150,4 @@ def print_fold_results(result_type, test, train):
 
 def print_results(result_type, scores):
     print(
-        f'{result_type} | {np.average(scores)}, folds: {["%.5f" % v for v in videos_test_scores]}')
+        f'{result_type} | {np.average(scores)}, folds: {["%.5f" % v for v in scores]}')

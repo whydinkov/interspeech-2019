@@ -1,4 +1,6 @@
 import numpy as np
+import pandas as pd
+from data_retrieval import get_dataset
 
 
 def data_transformation(channels, split_options):
@@ -38,7 +40,7 @@ def data_transformation(channels, split_options):
                                comments,
                                duration,
                                nela,
-                               emotion_feats,
+                               feats,
                                bias])
 
     return result
@@ -78,6 +80,8 @@ def calculate_mean(features_dict):
 
 
 def split_channel(channel_ids, split_options):
+    db_channels = get_dataset()
+
     channel_ids = channel_ids.tolist()
 
     current_channels = [

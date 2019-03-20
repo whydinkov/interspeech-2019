@@ -68,7 +68,7 @@ _nela_desc_pipeline = ('nela', Pipeline([
 ]))
 
 _open_smile = ('open_smile', Pipeline([
-    ('selector', ColumnSelector(columns='emo_1')),
+    ('selector', ColumnSelector(columns='open_smile')),
     ('to_list', FunctionTransformer(lambda X: X.tolist(), validate=False)),
     ('norm', Normalizer())
 ]))
