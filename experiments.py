@@ -1,5 +1,9 @@
 from evaluation import evaluate_nn
 from data_retrieval import get_data
+from os import environ
+
+environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 
 data, labels, dataset = get_data()
 

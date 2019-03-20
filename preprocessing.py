@@ -51,7 +51,7 @@ def get_open_smile_features(open_smile, options):
         raise Exception('Missing open_smile features for video.')
 
     get_mean = options.get('mean', False)
-    by_video = options.get('type', 'video')
+    by_video = options.get('type', 'video') == 'video'
     config = options.get('config', 'IS09_emotion')
 
     if config not in open_smile:

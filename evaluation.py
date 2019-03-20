@@ -71,8 +71,7 @@ def evaluate_nn(
         input_dim = X_test.shape[1]
 
         if debug:
-            print(f'X_test shape: {X_test.shape}')
-            print(f'X_train shape: {X_train.shape}')
+            print(f'Shape test: {X_test.shape} | train {X_train.shape}')
 
         if clf_type == 'lr':
             clf = create_clf()
@@ -123,7 +122,8 @@ def evaluate_nn(
         if debug:
             print_line()
             print_fold_results('videos', videos_test_acc, videos_train_acc)
-            print_fold_results('videos', channels_test_acc, channels_train_acc)
+            print_fold_results(
+                'channels', channels_test_acc, channels_train_acc)
             print(f'Done with split: {index + 1} ({end-start})')
 
     if debug:
