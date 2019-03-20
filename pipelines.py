@@ -67,22 +67,36 @@ _nela_desc_pipeline = ('nela', Pipeline([
     ('norm', Normalizer())
 ]))
 
-_os_pipe = ('open_smile', Pipeline([
+_open_smile = ('open_smile', Pipeline([
     ('selector', ColumnSelector(columns='emo_1')),
     ('to_list', FunctionTransformer(lambda X: X.tolist(), validate=False)),
     ('norm', Normalizer())
 ]))
 
 
-def create_transfomer(include_open_smile=True):
-    pipelines = [
-        _fulltext_pipeline,
-        _numerical_pipeline,
-        _nela_desc_pipeline,
-        _v_tags_pipeline
-    ]
+def create_transfomer(transformation_options):
+    if 'fulltext' not in transformation_options:
+        raise Exception('TransformerOptions. Missing "fulltext".')
+    if 'numerical' not in transformation_options:
+        raise Exception('TransformerOptions. Missing "numerical".')
+    if 'nela' not in transformation_options:
+        raise Exception('TransformerOptions. Missing "nela".')
+    if 'v_tags' not in transformation_options:
+        raise Exception('TransformerOptions. Missing "v_tags".')
+    if 'open_smile' not in transformation_options:
+        raise Exception('TransformerOptions. Missing "open_smile".')
 
-    if (include_open_smile):
-        pipelines.append(_os_pipe)
+    pipelines = []
+
+    if transformation_options['fulltext']:
+        pipelines.append(_fulltext_pipeline)
+    if transformation_options['numerical']:
+        pipelines.append(_numerical_pipeline)
+    if transformation_options['nela']:
+        pipelines.append(_nela_desc_pipeline)
+    if transformation_options['v_tags']:
+        pipelines.append(_v_tags_pipeline)
+    if transformation_options['open_smile']:
+        pipelines.append(_open_smile)
 
     return FeatureUnion(pipelines)

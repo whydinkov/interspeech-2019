@@ -1,0 +1,10 @@
+{
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.renderWhitespace": "all",
+    "python.linting.pylintEnabled": false,
+    "python.linting.pep8Enabled": true,
+    "python.linting.enabled": true,
+}

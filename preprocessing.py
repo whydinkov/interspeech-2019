@@ -48,19 +48,19 @@ def get_open_smile_features(open_smile, options):
     if not open_smile:
         raise Exception('Missing open_smile features for video.')
 
-    get_mean = options['mean']
-    single = options['single']
-    config = options['config']
+    get_mean = options.get('mean', False)
+    by_video = options.get('type', 'video')
+    config = options.get('config', 'IS09_emotion')
 
     if config not in open_smile:
         raise Exception(f'Missing config. Available: {open_smile.keys()}')
 
-    if not single and get_mean:
-        raise Exception('Mean is applied only in single mode.')
+    if not by_video and get_mean:
+        raise Exception('Mean is applied only for videos not speech episodes.')
 
-    if single and get_mean:
+    if by_video and get_mean:
         return [calculate_mean(open_smile[config])]
-    elif single:
+    elif by_video:
         return [open_smile[config]['1']]
     else:
         return open_smile[config].values()
@@ -77,17 +77,13 @@ def calculate_mean(features_dict):
 #   'config' - ['IS09_emotion', 'IS12_speaker_traints'] open_smile config
 
 
-def split_channel(channel_ids, split_type, split_options={
-    'single': True,
-    'mean': False,
-    'config': 'IS09_emotion'
-}):
+def split_channel(channel_ids, split_options):
     channel_ids = channel_ids.tolist()
 
     current_channels = [
         c for c in db_channels if c['youtube_id'] in channel_ids]
 
-    splits = data_transformation(current_channels, split_type)
+    splits = data_transformation(current_channels, split_options)
 
     return pd.DataFrame(splits, columns=['channel_id',
                                          'fulltext',

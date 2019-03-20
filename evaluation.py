@@ -19,12 +19,19 @@ def evaluate_nn(
     aggregation_options='avg',
     transformation_options={},
     split_options={},
-    nn_arch=[],
+    nn_arch={},
     debug=False,
     verbose=0
 ):
     if debug:
-        print(f'open_smile: {open_smile}, clf_type: {clf_type}')
+        print('Experiment:')
+        print(f'Clf type: {clf_type}')
+        print(f'Aggregation options: {aggregation_options}')
+        print(f'Transformation options: {transformation_options}')
+        print(f'Split options: {split_options}')
+
+        if clf_type == 'nn':
+            print(f'NN arch: {nn_arch}')
 
     videos_test_scores = []
     videos_train_scores = []
@@ -43,22 +50,28 @@ def evaluate_nn(
         y_test_channels = labels.iloc[test_index]
 
         # transform to features
-        transformer_train = create_transfomer(include_open_smile=open_smile)
-        X_train_videos = split_channel(X_train_channels)
+        transformer_train = create_transfomer(transformation_options)
+        X_train_videos = split_channel(
+            X_train_channels, split_options)
         X_train = transformer_train.fit_transform(
             X_train_videos, X_train_videos['bias'].tolist())
 
-        t_test = create_transfomer(include_open_smile=open_smile)
-        X_test_videos = split_channel(X_test_channels)
-        X_test = t_test.transform(X_test_videos)
+        transformer_test = create_transfomer(transformation_options)
+        X_test_splits = split_channel(
+            X_test_channels, split_options)
+        X_test = transformer_test.transform(X_test_splits)
 
         # clf
         input_dim = X_test.shape[1]
 
+        if debug:
+            print(f'X_test shape: {X_test.shape}')
+            print(f'X_train shape: {X_train.shape}')
+
         if clf_type == 'lr':
             clf = create_clf()
         elif clf_type == 'nn':
-            clf = create_nn_clf(input_dim, nn_args, verbose)
+            clf = create_nn_clf(input_dim, nn_arch, verbose)
 
         clf.fit(X_train, X_train_videos['bias'])
 
@@ -68,22 +81,22 @@ def evaluate_nn(
 
         assert accuracy_score(y_pred_, y_pred), 1.0
 
-        if aggregator == 'avg':
+        if aggregation_options == 'avg':
             aggregate = get_channels_bias_avg
-        if aggregator == 'max':
+        if aggregation_options == 'max':
             aggregate = get_channels_bias_max
 
         y_pred_train_proba = clf.predict_proba(X_train)
         y_pred_train = get_labels_from_proba(y_pred_train_proba)
 
         y_pred_channels = aggregate(
-            X_test_videos['channel_id'].tolist(), y_pred_proba)
+            X_test_splits['channel_id'].tolist(), y_pred_proba)
         y_pred_train_channels = aggregate(
             X_train_videos['channel_id'].tolist(), y_pred_train_proba)
 
         # metrics
         videos_test_acc = accuracy_score(
-            y_true=X_test_videos['bias'].tolist(), y_pred=y_pred)
+            y_true=X_test_splits['bias'].tolist(), y_pred=y_pred)
         videos_train_acc = accuracy_score(
             y_true=X_train_videos['bias'].tolist(), y_pred=y_pred_train)
         channels_test_acc = accuracy_score(
@@ -125,4 +138,5 @@ def print_fold_results(result_type, test, train):
 
 
 def print_results(result_type, scores):
-    print(f'{result_type} | {np.average(scores)}, folds: {["%.5f" % v for v in videos_test_scores]}')
+    print(
+        f'{result_type} | {np.average(scores)}, folds: {["%.5f" % v for v in videos_test_scores]}')

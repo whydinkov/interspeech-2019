@@ -7,18 +7,27 @@ data, labels = get_data()
 
 clf_type = 'lr'
 
-aggregation_options = 'max'
+aggregation_options = 'avg'
 
 split_options = {
     'type': 'video',
+    'mean': False,
     'config': 'IS09_emotion',
 }
 
-nn_arch = [
-    ('dense', 5, 'tanh', 0.2),
-    ('dense', 5, 'tanh', 0.2)
-    ('dense', 5, 'tanh', 0.2)
-]
+nn_arch = {
+    'layers': [
+        ('dropout', 0.2),
+        ('dense', 32, 'tanh'),
+        ('dropout', 0.2),
+        ('dense', 16, 'tanh'),
+        ('dropout', 0.2),
+        ('dense', 5, 'softmax'),
+    ],
+    'optimizer': 'adam',
+    'batch_size': 75,
+    'epochs': 50
+}
 
 transformation_options = {
     'fulltext': True,
