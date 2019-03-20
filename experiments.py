@@ -6,7 +6,7 @@ data, labels, dataset = get_data()
 
 # Experiment options
 
-clf_type = 'lr'
+clf_type = 'nn'
 
 aggregation_options = 'avg'
 

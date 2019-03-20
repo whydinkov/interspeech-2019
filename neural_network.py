@@ -5,7 +5,7 @@ from keras.layers import Dense, Dropout, Input
 from keras.optimizers import SGD, Adam, RMSprop
 
 
-def _generate_keras_layer(model, layer, input_dim=None):
+def _generate_keras_layer(layer, input_dim=None):
     layer_type = layer[0]
 
     if layer_type == 'dropout' and input_dim:
