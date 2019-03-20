@@ -79,8 +79,8 @@ def calculate_mean(features_dict):
 #   'config' - ['IS09_emotion', 'IS12_speaker_traints'] open_smile config
 
 
-def split_channel(channel_ids, split_options):
-    db_channels = get_dataset()
+def split_channel(channel_ids, dataset, split_options):
+    db_channels = dataset
 
     channel_ids = channel_ids.tolist()
 

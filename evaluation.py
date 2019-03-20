@@ -17,6 +17,7 @@ from timeit import default_timer as timer
 def evaluate_nn(
     data,
     labels,
+    dataset,
     clf_type,
     aggregation_options='avg',
     transformation_options={},
@@ -57,13 +58,13 @@ def evaluate_nn(
         # transform to features
         transformer_train = create_transfomer(transformation_options)
         X_train_videos = split_channel(
-            X_train_channels, split_options)
+            X_train_channels, dataset, split_options)
         X_train = transformer_train.fit_transform(
             X_train_videos, X_train_videos['bias'].tolist())
 
         transformer_test = create_transfomer(transformation_options)
         X_test_splits = split_channel(
-            X_test_channels, split_options)
+            X_test_channels, dataset, split_options)
         X_test = transformer_test.transform(X_test_splits)
 
         # clf

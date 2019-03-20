@@ -32,4 +32,4 @@ def get_data():
 
     dataset = db_channels
 
-    return (data, labels)
+    return (data, labels, db_channels)

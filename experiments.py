@@ -1,7 +1,8 @@
 from evaluation import evaluate_nn
 from data_retrieval import get_data
 
-data, labels = get_data()
+data, labels, dataset = get_data()
+
 
 # Experiment options
 
@@ -39,6 +40,7 @@ transformation_options = {
 
 evaluate_nn(data,
             labels,
+            dataset,
             clf_type,
             aggregation_options=aggregation_options,
             transformation_options=transformation_options,
