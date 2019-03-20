@@ -27,7 +27,7 @@ nn_arch = {
         ('dropout', 0.2),
         ('dense', 16, 'tanh'),
         ('dropout', 0.2),
-        ('dense', 5, 'softmax'),
+        ('dense', 3, 'softmax'),
     ],
     'optimizer': 'adam',
     'batch_size': 75,

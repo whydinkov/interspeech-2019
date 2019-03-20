@@ -50,7 +50,7 @@ def get_channels_bias_max(channel_ids, labels):
     }
     result = []
     for channel_id, label_probabilities in zip(channel_ids, labels):
-        leastbiased, left, right = label_probability
+        leastbiased, left, right = label_probabilities
         if current_channel_id is None:
             current_channel_id = channel_id
 
