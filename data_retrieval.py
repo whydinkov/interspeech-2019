@@ -12,7 +12,7 @@ def get_dataset():
 
     db_channels_path = environ['dataset']
 
-    with open('../files/db_channels', 'rb') as f:
+    with open(db_channels_path, 'rb') as f:
         return pickle.load(f)
 
 
