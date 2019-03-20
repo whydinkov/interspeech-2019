@@ -33,6 +33,7 @@ evaluate_nn(data,
             clf_type,
             aggregation_options=aggregation_options,
             transfomration_options=transformation_options,
+            split_options=split_options,
             nn_arch=nn_arch,
             debug=True,
             verbose=1)

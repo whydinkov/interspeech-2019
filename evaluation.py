@@ -1,7 +1,8 @@
 import numpy as np
 
 from aggregate import get_channels_bias_avg, get_channels_bias_max
-from neural_network import create_clf, create_nn_clf
+from neural_network import create_nn_clf
+from logistic_regression import create_clf
 from preprocessing import split_channel
 from pipelines import create_transfomer
 
@@ -11,8 +12,17 @@ from sklearn.metrics import accuracy_score
 from timeit import default_timer as timer
 
 
-def evaluate_nn(open_smile, clf_type, nn_args={}, debug=False, stop=False,
-                verbose=False, aggregator='avg'):
+def evaluate_nn(
+    data,
+    labels,
+    clf_type,
+    aggregation_options='avg',
+    transformation_options={},
+    split_options={},
+    nn_arch=[],
+    debug=False,
+    verbose=0
+):
     if debug:
         print(f'open_smile: {open_smile}, clf_type: {clf_type}')
 
@@ -115,5 +125,4 @@ def print_fold_results(result_type, test, train):
 
 
 def print_results(result_type, scores):
-    print(f'{result_type} | {np.average(scores)}, folds:
-          {["%.5f" % v for v in videos_test_scores]}')
+    print(f'{result_type} | {np.average(scores)}, folds: {["%.5f" % v for v in videos_test_scores]}')
