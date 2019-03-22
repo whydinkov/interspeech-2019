@@ -28,6 +28,10 @@ def data_transformation(channels, split_options):
             # nela
             nela = video['nela']['title_description']
 
+            speech_embeddings = get_speech_embeddings(
+                video['speech_embeddings'], split_options)
+
+            # open_smile
             for feats in get_open_smile_features(
                     video['open_smile'],
                     split_options):
@@ -41,9 +45,22 @@ def data_transformation(channels, split_options):
                                duration,
                                nela,
                                feats,
+                               speech_embeddings,
                                bias])
 
     return result
+
+
+def get_speech_embeddings(speech_embeddings, options):
+    if not speech_embeddings:
+        raise Exception('Missing speech_embeddings for video').args
+
+    mean = options.get('speech_embeddings', {'mean': False})['mean']
+
+    if mean:
+        return calculate_mean(speech_embeddings)
+
+    return speech_embeddings['1']
 
 
 def get_open_smile_features(open_smile, options):
@@ -99,4 +116,5 @@ def split_channel(channel_ids, dataset, split_options):
                                          'duration',
                                          'nela',
                                          'open_smile',
+                                         'speech_embeddings',
                                          'bias'])

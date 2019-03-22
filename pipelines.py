@@ -73,6 +73,12 @@ _open_smile = ('open_smile', Pipeline([
     ('norm', Normalizer())
 ]))
 
+_speech_embeddings = ('speech_embeddings', Pipeline([
+    ('selector', ColumnSelector(columns='speech_embeddings')),
+    ('to_list', FunctionTransformer(lambda X: X.tolist(), validate=False)),
+    ('norm', Normalizer())
+]))
+
 
 def create_transfomer(transformation_options):
     if 'fulltext' not in transformation_options:
@@ -85,6 +91,8 @@ def create_transfomer(transformation_options):
         raise Exception('TransformerOptions. Missing "v_tags".')
     if 'open_smile' not in transformation_options:
         raise Exception('TransformerOptions. Missing "open_smile".')
+    if 'speech_embeddings' not in transformation_options:
+        raise Exception('TransformerOptions. Missing "speech_embeddings".')
 
     pipelines = []
 
@@ -98,5 +106,7 @@ def create_transfomer(transformation_options):
         pipelines.append(_v_tags_pipeline)
     if transformation_options['open_smile']:
         pipelines.append(_open_smile)
+    if transformation_options['speech_embeddings']:
+        pipelines.append(_speech_embeddings)
 
     return FeatureUnion(pipelines)
