@@ -6,6 +6,9 @@ from numpy.random import seed
 import sys
 import os
 from os.path import join
+from dotenv import load_dotenv
+
+load_dotenv()
 
 environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
