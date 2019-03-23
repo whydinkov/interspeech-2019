@@ -9,9 +9,13 @@ from preprocessing import split_channel
 from pipelines import create_transfomer
 
 from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 from timeit import default_timer as timer
+
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
 
 
 def evaluate_nn(
@@ -30,14 +34,17 @@ def evaluate_nn(
         now = datetime.now()
         now.year, now.month, now.day, now.hour, now.minute, now.second
         print(
-            f'Experiment: {now.year}.{now.month}.{now.day} {now.hour}:{now.minute}:{now.second}')
+            f'Experiment: {now.year}.{now.month:02}.{now.day:02} {now.hour:02}:{now.minute:02}:{now.second:02}')
         print(f'Clf type: {clf_type}')
         print(f'Aggregation options: {aggregation_options}')
-        print(f'Transformation options: {transformation_options}')
-        print(f'Split options: {split_options}')
-
+        print(f'Transformation options:')
+        pp.pprint(transformation_options)
+        print(f'Split options:')
+        pp.pprint(split_options)
         if clf_type == 'nn':
-            print(f'NN arch: {nn_arch}')
+            print(f'NN architecture:')
+            pp.print(nn_arch)
+        print_line()
 
     videos_test_scores = []
     videos_train_scores = []
@@ -57,10 +64,10 @@ def evaluate_nn(
 
         # transform to features
         transformer_train = create_transfomer(transformation_options)
-        X_train_videos = split_channel(
+        X_train_splits = split_channel(
             X_train_channels, dataset, split_options)
         X_train = transformer_train.fit_transform(
-            X_train_videos, X_train_videos['bias'].tolist())
+            X_train_splits, X_train_splits['bias'].tolist())
 
         transformer_test = create_transfomer(transformation_options)
         X_test_splits = split_channel(
@@ -69,16 +76,26 @@ def evaluate_nn(
 
         # clf
         input_dim = X_test.shape[1]
+        split_type = split_options['type']
 
         if debug:
+            print(f'Split {index + 1}')
             print(f'Shape test: {X_test.shape} | train {X_train.shape}')
+            print(f'Distribution channels test:')
+            print(y_test_channels.value_counts(normalize=True))
+            print(f'Distribution channels train:')
+            print(y_train_channels.value_counts(normalize=True))
+            print(f'Distribution {split_type} test:')
+            print(X_test_splits['bias'].value_counts(normalize=True))
+            print(f'Distribution {split_type} train:')
+            print(X_train_splits['bias'].value_counts(normalize=True))
 
         if clf_type == 'lr':
             clf = create_clf()
         elif clf_type == 'nn':
             clf = create_nn_clf(input_dim, nn_arch, verbose)
 
-        clf.fit(X_train, X_train_videos['bias'])
+        clf.fit(X_train, X_train_splits['bias'])
 
         y_pred_proba = clf.predict_proba(X_test)
         y_pred_ = clf.predict(X_test)
@@ -97,13 +114,13 @@ def evaluate_nn(
         y_pred_channels = aggregate(
             X_test_splits['channel_id'].tolist(), y_pred_proba)
         y_pred_train_channels = aggregate(
-            X_train_videos['channel_id'].tolist(), y_pred_train_proba)
+            X_train_splits['channel_id'].tolist(), y_pred_train_proba)
 
         # metrics
         videos_test_acc = accuracy_score(
             y_true=X_test_splits['bias'].tolist(), y_pred=y_pred)
         videos_train_acc = accuracy_score(
-            y_true=X_train_videos['bias'].tolist(), y_pred=y_pred_train)
+            y_true=X_train_splits['bias'].tolist(), y_pred=y_pred_train)
         channels_test_acc = accuracy_score(
             y_true=y_test_channels, y_pred=y_pred_channels)
         channels_train_acc = accuracy_score(
@@ -120,14 +137,31 @@ def evaluate_nn(
         experiments_times.append(end-start)
 
         if debug:
-            print_line()
-            print_fold_results('videos', videos_test_acc, videos_train_acc)
+            print()
+            print_fold_results(split_type, videos_test_acc, videos_train_acc)
             print_fold_results(
                 'channels', channels_test_acc, channels_train_acc)
-            print(f'Done with split: {index + 1} ({end-start})')
+            print()
+            print(f'Confusion matrix for split: {index + 1}')
+            print(f'Confusion matrix labels: {clf.classes_}')
+            print("channels:")
+            cm_channels = confusion_matrix(y_true=y_test_channels,
+                                           y_pred=y_pred_channels,
+                                           labels=clf.classes_)
+            print(f'{cm_channels}')
+            print(f"{split_type}:")
+            cm_splits = confusion_matrix(y_true=X_test_splits['bias'].tolist(),
+                                         y_pred=y_pred,
+                                         labels=clf.classes_)
+            print(f'{cm_splits}')
+
+            print(f'Done with split: {index + 1} for {end-start:.2f}s')
+            print_line()
 
     if debug:
-        print_line()
+        print()
+        print()
+        print('Experiment results:')
         print_results('videos test', videos_test_scores)
         print_results('videos train', videos_train_scores)
         print_results('channels test', channels_test_scores)
