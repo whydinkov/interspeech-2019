@@ -14,8 +14,10 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from timeit import default_timer as timer
 
 import pprint
+import io
 
-pp = pprint.PrettyPrinter(indent=4)
+output = io.StringIO()
+pp = pprint.PrettyPrinter(indent=4, stream=output)
 
 
 def evaluate_nn(
@@ -82,12 +84,16 @@ def evaluate_nn(
             print(f'Split {index + 1}')
             print(f'Shape test: {X_test.shape} | train {X_train.shape}')
             print(f'Distribution channels test:')
+            print(y_test_channels.value_counts())
             print(y_test_channels.value_counts(normalize=True))
             print(f'Distribution channels train:')
+            print(y_train_channels.value_counts())
             print(y_train_channels.value_counts(normalize=True))
             print(f'Distribution {split_type} test:')
+            print(X_test_splits['bias'].value_counts())
             print(X_test_splits['bias'].value_counts(normalize=True))
             print(f'Distribution {split_type} train:')
+            print(X_train_splits['bias'].value_counts())
             print(X_train_splits['bias'].value_counts(normalize=True))
 
         if clf_type == 'lr':
