@@ -6,5 +6,4 @@ def create_clf():
                               solver='liblinear',
                               tol=0.02,
                               C=4.5,
-                              penalty='l1',
-                              random_state=0)
+                              penalty='l1')
