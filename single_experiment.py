@@ -18,7 +18,7 @@ seed(np_seed)
 set_random_seed(tf_seed)
 
 print(f'numpy.random.seed({np_seed})')
-print(f'tensorflow.set_random_seed.seed({np_seed})')
+print(f'tensorflow.set_random_seed.seed({tf_seed})')
 
 # Experiment arguments
 
@@ -28,7 +28,7 @@ aggregation_options = 'avg'  # avg, max
 
 split_options = {
     'type': 'video',  # video, episodes
-    'mean': True,  # True, False
+    'mean': False,  # True, False
     'config': 'IS09_emotion',  # IS09_emotion,
     'speech_embeddings': {
         'mean': False  # True, False

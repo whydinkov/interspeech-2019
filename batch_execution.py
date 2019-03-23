@@ -7,6 +7,15 @@ import sys
 import os
 from os.path import join
 from dotenv import load_dotenv
+from datetime import datetime
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    '--split', help='Possible values: "video", "episodes", "both". Used to split channel to classifiable parts.')
+parser.add_argument(
+    '--agg', help='Possible values: "max", "avg", "both". Used to aggregate classified values to channel.')
 
 load_dotenv()
 
@@ -24,11 +33,11 @@ seed(np_seed)
 set_random_seed(tf_seed)
 # Experiment arguments
 
-clf_type = 'lr'  # lr, nn
+clf_type = 'nn'  # lr, nn
 
 split_options = {
     'type': 'video',  # video, episodes
-    'mean': True,  # True, False
+    'mean': False,  # True, False
     'config': 'IS09_emotion',  # IS09_emotion,
     'speech_embeddings': {
         'mean': False  # True, False
@@ -72,12 +81,20 @@ experiment_setups = [
     [1, 1, 1, 1, 1, 1]
 ]
 
-possible_aggregation_options = ['avg', 'max']
 
-split_types = ['video', 'episodes']
+input_args = vars(parser.parse_args())
+
+if input_args['agg'] == 'both':
+    possible_aggregation_options = ['avg', 'max']
+else:
+    possible_aggregation_options = [input_args['agg']]
+
+if input_args['split'] == 'both':
+    split_types = ['video', 'episodes']
+else:
+    split_types = [input_args['split']]
 
 output_path = environ['experiments_output']
-
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 
@@ -86,13 +103,15 @@ for split_type in split_types:
         for experiment_setup in experiment_setups:
             sys.stdout = sys.__stdout__  # default print to console
 
+            print(f'{datetime.now()}')
             print(f'{split_type}, {aggregation_option}, {experiment_setup}')
+            print(f'------------')
 
             file_path = (f'{split_type}_{aggregation_option}_'
-                         f'{"".join([str(x) for x in experiment_setup])}')
+                         f'{"".join([str(x) for x in experiment_setup])}'
+                         '.txt')
 
             sys.stdout = open(join(output_path, file_path), 'w')
-
             split_options['type'] = split_type
 
             transformation_options['fulltext'] = experiment_setup[0]
