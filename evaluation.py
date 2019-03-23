@@ -11,7 +11,7 @@ from pipelines import create_transfomer
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from sklearn.metrics import mean_absolute_error
-from sklearn.preprocessing import LabelBinarizer
+from scoring import calc_mae
 import pandas as pd
 from timeit import default_timer as timer
 from tabulate import tabulate
@@ -62,6 +62,8 @@ def evaluate_nn(
     f1_macro_channels_train_scores = []
     mae_split_test_scores = []
     mae_split_train_scores = []
+    mae_channels_test_scores = []
+    mae_channels_train_scores = []
 
     split_type = split_options['type']
 
@@ -87,7 +89,6 @@ def evaluate_nn(
             X_test_channels, dataset, split_options)
         X_test = transformer_test.transform(X_test_splits)
 
-        lb = LabelBinarizer()
         # clf
         input_dim = X_test.shape[1]
 
@@ -260,17 +261,25 @@ def evaluate_nn(
 
             # Mean absolute error
             print('MAE: ')
-            X_train_binarized = lb.fit_transform(
-                X_train_splits['bias'].tolist())
-            X_test_binarized = lb.fit_transform(X_test_splits['bias'].tolist())
-            mae_test = mean_absolute_error(y_true=X_test_binarized,
-                                           y_pred=y_pred_proba)
-            mae_split_test_scores.append(mae_test)
-            mae_train = mean_absolute_error(y_true=X_train_binarized,
-                                            y_pred=y_pred_train_proba)
-            mae_split_train_scores.append(mae_train)
-            print(f'Mean absolute error ({split_type} test): ', mae_test)
-            print(f'Mean absolute error ({split_type} train): ', mae_train)
+            mae_split_test = calc_mae(y_true=X_test_splits['bias'].tolist(),
+                                      y_pred=y_pred)
+            mae_split_test_scores.append(mae_split_test)
+            mae_split_train = calc_mae(y_true=X_train_splits['bias'].tolist(),
+                                       y_pred=y_pred_train)
+            mae_split_train_scores.append(mae_split_train)
+            mae_channels_test = calc_mae(y_true=y_test_channels,
+                                         y_pred=y_pred_channels)
+            mae_channels_test_scores.append(mae_channels_test)
+            mae_channels_train = calc_mae(y_true=y_train_channels,
+                                          y_pred=y_pred_train_channels)
+            mae_channels_train_scores.append(mae_channels_train)
+            print(f'Mean absolute error ({split_type} test): ', mae_split_test)
+            print(
+                f'Mean absolute error ({split_type} train): ', mae_split_train)
+            print(
+                f'Mean absolute error (channels train): ', mae_channels_test)
+            print(
+                f'Mean absolute error (channels train): ', mae_channels_train)
             print(f'Done with fold: {index + 1} for {end-start:.2f}s')
             print()
 
@@ -321,6 +330,10 @@ def evaluate_nn(
                       mae_split_test_scores)
         print_results(f'Mean absolute error {split_type} train',
                       mae_split_train_scores)
+        print_results(f'Mean absolute error channels test',
+                      mae_channels_test_scores)
+        print_results(f'Mean absolute error channels train',
+                      mae_channels_train_scores)
     return (channels_test_scores,
             channels_train_scores,
             videos_test_scores,
@@ -330,8 +343,8 @@ def evaluate_nn(
 
 
 def print_df(df):
-    print(df.columns.name)
-    print(tabulate(df, tablefmt='grid', headers=df.columns))
+    df_headers = [df.columns.name] + df.columns.tolist()
+    print(tabulate(df, tablefmt='grid', headers=df_headers))
     print()
 
 
