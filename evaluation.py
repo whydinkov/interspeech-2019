@@ -43,7 +43,7 @@ def evaluate_nn(
         pp.pprint(split_options)
         if clf_type == 'nn':
             print(f'NN architecture:')
-            pp.print(nn_arch)
+            pp.pprint(nn_arch)
         print_line()
 
     videos_test_scores = []

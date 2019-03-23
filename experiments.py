@@ -10,20 +10,28 @@ environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 data, labels, dataset = get_data()
 
 
-# Experiment options
+# Set predifined random seeds for both numpy and tensorflow
+# to get reproduceable experiments
+np_seed = 61619
+tf_seed = 25383
+seed(np_seed)
+set_random_seed(tf_seed)
 
-seed(61619)
-set_random_seed(25383)
-clf_type = 'nn' # lr, nn
+print(f'numpy.random.seed({np_seed})')
+print(f'tensorflow.set_random_seed.seed({np_seed})')
 
-aggregation_options = 'avg' # avg, max
+# Experiment arguments
+
+clf_type = 'nn'  # lr, nn
+
+aggregation_options = 'avg'  # avg, max
 
 split_options = {
-    'type': 'video', # video, episodes
-    'mean': True, # True, False 
-    'config': 'IS09_emotion', #IS09_emotion,
+    'type': 'video',  # video, episodes
+    'mean': True,  # True, False
+    'config': 'IS09_emotion',  # IS09_emotion,
     'speech_embeddings': {
-        'mean': False # True, False
+        'mean': False  # True, False
     }
 }
 
@@ -42,12 +50,12 @@ nn_arch = {
 }
 
 transformation_options = {
-    'fulltext': 1, # 0,1
-    'numerical': 1, # 0,1
-    'nela': 1, # 0,1
-    'v_tags': 1, # 0,1
-    'open_smile': 1, # 0,1
-    'speech_embeddings': 1 # 0,1
+    'fulltext': 1,  # 0,1
+    'numerical': 1,  # 0,1
+    'nela': 1,  # 0,1
+    'v_tags': 1,  # 0,1
+    'open_smile': 1,  # 0,1
+    'speech_embeddings': 1  # 0,1
 }
 
 evaluate_nn(data,
