@@ -15,6 +15,9 @@ from scoring import calc_mae
 import pandas as pd
 from timeit import default_timer as timer
 from tabulate import tabulate
+import warnings
+from sklearn.exceptions import UndefinedMetricWarning
+warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
 
 def evaluate_nn(
@@ -47,8 +50,8 @@ def evaluate_nn(
             pp.pprint(nn_arch)
         print_line()
 
-    videos_test_scores = []
-    videos_train_scores = []
+    splits_test_scores = []
+    splits_train_scores = []
     channels_test_scores = []
     channels_train_scores = []
     experiments_times = []
@@ -169,8 +172,8 @@ def evaluate_nn(
         channels_train_acc = accuracy_score(
             y_true=y_train_channels, y_pred=y_pred_train_channels)
 
-        videos_test_scores.append(videos_test_acc)
-        videos_train_scores.append(videos_train_acc)
+        splits_test_scores.append(videos_test_acc)
+        splits_train_scores.append(videos_train_acc)
 
         channels_test_scores.append(channels_test_acc)
         channels_train_scores.append(channels_train_acc)
@@ -304,8 +307,8 @@ def evaluate_nn(
         print()
         print('Experiment results:')
         print('Accuracy:')
-        print_results(f'{split_type} test', videos_test_scores)
-        print_results(f'{split_type} train', videos_train_scores)
+        print_results(f'{split_type} test', splits_test_scores)
+        print_results(f'{split_type} train', splits_train_scores)
         print_results('channels test', channels_test_scores)
         print_results('channels train', channels_train_scores)
         print('F1:')
@@ -336,8 +339,12 @@ def evaluate_nn(
                       mae_channels_train_scores)
     return (channels_test_scores,
             channels_train_scores,
-            videos_test_scores,
-            videos_train_scores,
+            splits_test_scores,
+            splits_train_scores,
+            mae_split_test_scores,
+            mae_split_train_scores,
+            mae_channels_test_scores,
+            mae_channels_train_scores,
             experiments_times,
             nn_arch)
 

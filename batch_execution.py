@@ -9,6 +9,9 @@ from os.path import join
 from dotenv import load_dotenv
 from datetime import datetime
 import argparse
+import numpy as np
+import pandas as pd
+import pickle
 
 parser = argparse.ArgumentParser()
 
@@ -33,7 +36,7 @@ seed(np_seed)
 set_random_seed(tf_seed)
 # Experiment arguments
 
-clf_type = 'nn'  # lr, nn
+clf_type = 'lr'  # lr, nn
 
 split_options = {
     'type': 'video',  # video, episodes
@@ -98,6 +101,7 @@ output_path = environ['experiments_output']
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 
+experiment_results = []
 for split_type in split_types:
     for aggregation_option in possible_aggregation_options:
         for experiment_setup in experiment_setups:
@@ -124,13 +128,51 @@ for split_type in split_types:
             print(f'numpy.random.seed({np_seed})')
             print(f'tensorflow.set_random_seed.seed({np_seed})')
 
-            evaluate_nn(data,
-                        labels,
-                        dataset,
-                        clf_type,
-                        aggregation_options=aggregation_option,
-                        transformation_options=transformation_options,
-                        split_options=split_options,
-                        nn_arch=nn_arch,
-                        debug=True,
-                        verbose=0)
+            result = evaluate_nn(data,
+                                 labels,
+                                 dataset,
+                                 clf_type,
+                                 aggregation_options=aggregation_option,
+                                 transformation_options=transformation_options,
+                                 split_options=split_options,
+                                 nn_arch=nn_arch,
+                                 debug=True,
+                                 verbose=0)
+
+            acc_channels_test = np.average(result[0])
+            acc_channels_train = np.average(result[1])
+            acc_splits_test = np.average(result[2])
+            acc_splits_train = np.average(result[3])
+            mae_channels_test = np.average(result[4])
+            mae_channels_train = np.average(result[5])
+            mae_splits_test = np.average(result[6])
+            mae_splits_train = np.average(result[7])
+
+            experiment_results.append([
+                f'{split_type}, {aggregation_option}, {experiment_setup}',
+                acc_splits_test,
+                acc_splits_train,
+                acc_channels_test,
+                acc_channels_test,
+                mae_splits_test,
+                mae_splits_train,
+                mae_channels_test,
+                mae_channels_test,
+            ])
+
+# just in case if df fails for encoding reasons.
+with open('experiment_results.backup', 'wb') as f:
+    pickle.dump(experiment_results, f)
+
+df = pd.DataFrame(experiment_results, columns=['experiment',
+                                               'acc_splits_test',
+                                               'acc_splits_train',
+                                               'acc_channels_test',
+                                               'acc_channels_test',
+                                               'mae_splits_test',
+                                               'mae_splits_train',
+                                               'mae_channels_test',
+                                               'mae_channels_test'])
+
+total_results_path = join(output_path, 'total_results.csv')
+df.to_csv(total_results_path, index=False)
