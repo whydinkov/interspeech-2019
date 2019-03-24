@@ -18,12 +18,12 @@ def _calc_label_error(true_label, pred_label):
     # pred will be left or right
     # so error is 1
     if true_label == 'leastbiased':
-        return 0.5
+        return 1
 
     # if true is left or right
     # mistaken by center is 1
     if pred_label == 'leastbiased':
-        return 0.5
+        return 1
 
     # otherwise 2
-    return 1
+    return 2
