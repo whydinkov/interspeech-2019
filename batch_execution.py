@@ -153,11 +153,11 @@ for split_type in split_types:
                 acc_splits_test,
                 acc_splits_train,
                 acc_channels_test,
-                acc_channels_test,
+                acc_channels_train,
                 mae_splits_test,
                 mae_splits_train,
                 mae_channels_test,
-                mae_channels_test,
+                mae_channels_train,
             ])
 
 # just in case if df fails for encoding reasons.
@@ -168,11 +168,11 @@ df = pd.DataFrame(experiment_results, columns=['experiment',
                                                'acc_splits_test',
                                                'acc_splits_train',
                                                'acc_channels_test',
-                                               'acc_channels_test',
+                                               'acc_channels_train',
                                                'mae_splits_test',
                                                'mae_splits_train',
                                                'mae_channels_test',
-                                               'mae_channels_test'])
+                                               'mae_channels_train'])
 
 total_results_path = join(output_path, 'total_results.csv')
 df.to_csv(total_results_path, index=False)
