@@ -68,24 +68,28 @@ nn_arch = {
 transformation_options = {
     'fulltext': 1,  # 0,1
     'numerical': 1,  # 0,1
-    'nela': 1,  # 0,1
+    'nela_desc': 1,  # 0,1
+    'nela_subs': 1,  # 0,1
     'v_tags': 1,  # 0,1
     'open_smile': 1,  # 0,1
-    'speech_embeddings': 1  # 0,1
+    'speech_embeddings': 1,  # 0,1
+    'bert': 1  # 0,1
 }
 
 
 experiment_setups = [
-    [1, 0, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 0, 0],
-    [1, 1, 1, 1, 1, 0],
-    [1, 1, 1, 1, 0, 1],
-    [1, 1, 1, 1, 1, 1]
+    [1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 0, 0],
+    [1, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 1, 1, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1],
 ]
 
 
@@ -127,10 +131,12 @@ for split_type in split_types:
 
             transformation_options['fulltext'] = experiment_setup[0]
             transformation_options['numerical'] = experiment_setup[1]
-            transformation_options['nela'] = experiment_setup[2]
-            transformation_options['v_tags'] = experiment_setup[3]
-            transformation_options['open_smile'] = experiment_setup[4]
-            transformation_options['speech_embeddings'] = experiment_setup[5]
+            transformation_options['nela_desc'] = experiment_setup[2]
+            transformation_options['nela_subs'] = experiment_setup[3]
+            transformation_options['v_tags'] = experiment_setup[4]
+            transformation_options['bert'] = experiment_setup[5]
+            transformation_options['open_smile'] = experiment_setup[6]
+            transformation_options['speech_embeddings'] = experiment_setup[7]
 
             print(f'tensorflow.set_random_seed {tf_seed}')
             print(f'numpy.randomseed {seed}')

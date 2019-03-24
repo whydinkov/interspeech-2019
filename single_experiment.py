@@ -47,10 +47,12 @@ nn_arch = {
 transformation_options = {
     'fulltext': 1,  # 0,1
     'numerical': 1,  # 0,1
-    'nela': 1,  # 0,1
+    'nela_desc': 1,  # 0,1
+    'nela_subs': 0,  # 0,
     'v_tags': 1,  # 0,1
     'open_smile': 1,  # 0,1
-    'speech_embeddings': 0  # 0,1
+    'speech_embeddings': 0,  # 0,1
+    'bert': 1
 }
 
 evaluate_nn(data,

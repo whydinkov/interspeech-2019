@@ -26,7 +26,10 @@ def data_transformation(channels, split_options):
             duration = video['contentDetails']['duration_seconds']
 
             # nela
-            nela = video['nela']['title_description']
+            nela_desc = video['nela']['title_description']
+            nela_subs = video['nela']['title_subs']
+
+            bert = video['bert']['cls_token']
 
             speech_embeddings = get_speech_embeddings(
                 video['speech_embeddings'], split_options)
@@ -43,9 +46,11 @@ def data_transformation(channels, split_options):
                                dislikes,
                                comments,
                                duration,
-                               nela,
+                               nela_desc,
+                               nela_subs,
                                feats,
                                speech_embeddings,
+                               bert,
                                bias])
 
     return result
@@ -114,7 +119,9 @@ def split_channel(channel_ids, dataset, split_options):
                                          'dislikes',
                                          'comments',
                                          'duration',
-                                         'nela',
+                                         'nela_desc',
+                                         'nela_subs',
                                          'open_smile',
                                          'speech_embeddings',
+                                         'bert',
                                          'bias'])
