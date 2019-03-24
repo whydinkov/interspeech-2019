@@ -12,7 +12,7 @@ data, labels, dataset = get_data()
 
 clf_type = 'nn'  # lr, nn
 
-aggregation_options = 'avg'  # avg, max
+aggregation_options = 'max'  # avg, max
 
 split_options = {
     'type': 'video',  # video, episodes
@@ -43,7 +43,7 @@ transformation_options = {
     'nela': 1,  # 0,1
     'v_tags': 1,  # 0,1
     'open_smile': 1,  # 0,1
-    'speech_embeddings': 1  # 0,1
+    'speech_embeddings': 0  # 0,1
 }
 
 evaluate_nn(data,
