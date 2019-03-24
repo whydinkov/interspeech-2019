@@ -1,8 +1,6 @@
 from evaluation import evaluate_nn
 from data_retrieval import get_data
 from os import environ
-from tensorflow import set_random_seed
-from numpy.random import seed
 import sys
 import os
 from os.path import join
@@ -30,10 +28,7 @@ data, labels, dataset = get_data()
 
 # Set predifined random seeds for both numpy and tensorflow
 # to get reproduceable experiments
-np_seed = 61619
-tf_seed = 25383
-seed(np_seed)
-set_random_seed(tf_seed)
+
 # Experiment arguments
 
 clf_type = 'lr'  # lr, nn
@@ -125,9 +120,6 @@ for split_type in split_types:
             transformation_options['v_tags'] = experiment_setup[3]
             transformation_options['open_smile'] = experiment_setup[4]
             transformation_options['speech_embeddings'] = experiment_setup[5]
-
-            print(f'numpy.random.seed({np_seed})')
-            print(f'tensorflow.set_random_seed.seed({np_seed})')
 
             result = evaluate_nn(data,
                                  labels,

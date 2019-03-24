@@ -3,6 +3,13 @@ from keras.utils import multi_gpu_model
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Input
 from keras.optimizers import SGD, Adam, RMSprop
+from tensorflow import set_random_seed
+from numpy.random import seed
+
+np_seed = 61619
+tf_seed = 25383
+seed(np_seed)
+set_random_seed(tf_seed)
 
 
 def _generate_keras_layer(layer, input_dim=None):

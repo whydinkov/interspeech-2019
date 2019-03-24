@@ -35,20 +35,18 @@ def evaluate_nn(
     pp = pprint.PrettyPrinter(indent=4, stream=sys.stdout)
 
     if debug:
-        now = datetime.now()
-        now.year, now.month, now.day, now.hour, now.minute, now.second
-        print(
-            f'Experiment: {now.year}.{now.month:02}.{now.day:02} {now.hour:02}:{now.minute:02}:{now.second:02}')
-        print(f'Clf type: {clf_type}')
-        print(f'Aggregation options: {aggregation_options}')
-        print(f'Transformation options:')
+        current_time = datetime.now().strftime('%Y%m%d %H%M%S')
+        print(f'Experiment: {current_time}')
+        print(f'Classifier type: {clf_type}')
+        print(f'Included features:')
         pp.pprint(transformation_options)
+        print(f'Aggregation type: {aggregation_options}')
         print(f'Split options:')
         pp.pprint(split_options)
         if clf_type == 'nn':
-            print(f'NN architecture:')
+            print(f'Neural network architecture:')
             pp.pprint(nn_arch)
-        print_line()
+        log_line()
 
     splits_test_scores = []
     splits_train_scores = []
@@ -106,7 +104,7 @@ def evaluate_nn(
             ], axis=1)
             dist_df_test_channels.columns = ['count', 'distribution']
             dist_df_test_channels.columns.name = 'channels test'
-            print_df(dist_df_test_channels)
+            log_df(dist_df_test_channels)
             print()
 
             dist_df_train_channels = pd.concat([
@@ -115,7 +113,7 @@ def evaluate_nn(
             ], axis=1)
             dist_df_train_channels.columns = ['count', 'distribution']
             dist_df_train_channels.columns.name = 'channels train'
-            print_df(dist_df_train_channels)
+            log_df(dist_df_train_channels)
             print()
 
             dist_df_test_splits = pd.concat([
@@ -124,7 +122,7 @@ def evaluate_nn(
             ], axis=1)
             dist_df_test_splits.columns = ['count', 'distribution']
             dist_df_test_splits.columns.name = f'{split_type} test'
-            print_df(dist_df_test_splits)
+            log_df(dist_df_test_splits)
             print()
 
             dist_df_train_splits = pd.concat([
@@ -133,7 +131,7 @@ def evaluate_nn(
             ], axis=1)
             dist_df_train_splits.columns = ['count', 'distribution']
             dist_df_train_splits.columns.name = f'{split_type} train'
-            print_df(dist_df_train_splits)
+            log_df(dist_df_train_splits)
             print()
 
         if clf_type == 'lr':
@@ -186,8 +184,8 @@ def evaluate_nn(
             print()
             print()
             print('Accuracy:')
-            print_fold_results(split_type, videos_test_acc, videos_train_acc)
-            print_fold_results(
+            log_fold_results(split_type, videos_test_acc, videos_train_acc)
+            log_fold_results(
                 'channels', channels_test_acc, channels_train_acc)
             print()
 
@@ -292,51 +290,45 @@ def evaluate_nn(
                                   y_pred=y_pred_channels,
                                   labels=clf.classes_,
                                   cm_type='channels')
-            print_df(cm_channels)
+            log_df(cm_channels)
             print()
             cm_splits = make_cm(y_true=X_test_splits['bias'].tolist(),
                                 y_pred=y_pred,
                                 labels=clf.classes_,
                                 cm_type=split_type)
-            print_df(cm_splits)
+            log_df(cm_splits)
             print()
-            print_line()
+            log_line()
 
     if debug:
         print()
         print()
         print('Experiment results:')
         print('Accuracy:')
-        print_results(f'{split_type} test', splits_test_scores)
-        print_results(f'{split_type} train', splits_train_scores)
-        print_results('channels test', channels_test_scores)
-        print_results('channels train', channels_train_scores)
+        log_results(f'{split_type} test', splits_test_scores)
+        log_results(f'{split_type} train', splits_train_scores)
+        log_results('channels test', channels_test_scores)
+        log_results('channels train', channels_train_scores)
         print('F1:')
-        print_results(f'F1 micro {split_type} test',
-                      f1_micro_split_test_scores)
-        print_results(f'F1 micro {split_type} train',
-                      f1_micro_split_train_scores)
-        print_results(f'F1 macro {split_type} test',
-                      f1_macro_split_test_scores)
-        print_results(f'F1 macro {split_type} train',
-                      f1_macro_split_train_scores)
-        print_results(f'F1 micro channels test',
-                      f1_micro_channels_test_scores)
-        print_results(f'F1 micro channels train',
-                      f1_micro_channels_train_scores)
-        print_results(f'F1 macro channels test',
-                      f1_macro_channels_test_scores)
-        print_results(f'F1 macro channels train',
-                      f1_macro_channels_train_scores)
+        log_results(f'F1 micro {split_type} test', f1_micro_split_test_scores)
+        log_results(f'F1 micro {split_type} train',
+                    f1_micro_split_train_scores)
+        log_results(f'F1 macro {split_type} test', f1_macro_split_test_scores)
+        log_results(f'F1 macro {split_type} train',
+                    f1_macro_split_train_scores)
+        log_results(f'F1 micro channels test', f1_micro_channels_test_scores)
+        log_results(f'F1 micro channels train', f1_micro_channels_train_scores)
+        log_results(f'F1 macro channels test', f1_macro_channels_test_scores)
+        log_results(f'F1 macro channels train', f1_macro_channels_train_scores)
         print('MAE:')
-        print_results(f'Mean absolute error {split_type} test',
-                      mae_split_test_scores)
-        print_results(f'Mean absolute error {split_type} train',
-                      mae_split_train_scores)
-        print_results(f'Mean absolute error channels test',
-                      mae_channels_test_scores)
-        print_results(f'Mean absolute error channels train',
-                      mae_channels_train_scores)
+        log_results(f'Mean absolute error {split_type} test',
+                    mae_split_test_scores)
+        log_results(f'Mean absolute error {split_type} train',
+                    mae_split_train_scores)
+        log_results(f'Mean absolute error channels test',
+                    mae_channels_test_scores)
+        log_results(f'Mean absolute error channels train',
+                    mae_channels_train_scores)
     return (channels_test_scores,
             channels_train_scores,
             splits_test_scores,
@@ -349,7 +341,7 @@ def evaluate_nn(
             nn_arch)
 
 
-def print_df(df):
+def log_df(df):
     df_headers = [df.columns.name] + df.columns.tolist()
     print(tabulate(df, tablefmt='grid', headers=df_headers))
     print()
@@ -362,14 +354,14 @@ def make_cm(y_true, y_pred, labels, cm_type):
     return df
 
 
-def print_line():
+def log_line():
     print('-' * 75)
 
 
-def print_fold_results(result_type, test, train):
+def log_fold_results(result_type, test, train):
     print(f'{result_type} | test: {test:.6f} / train: {train:.6f}')
 
 
-def print_results(result_type, scores):
-    print(
-        f'{result_type} | {np.average(scores)}, folds: {["%.5f" % v for v in scores]}')
+def log_results(result_type, scores):
+    fold_scores = ["%.6f" % v for v in scores]
+    print(f'{result_type} | {np.average(scores)}, folds: {fold_scores}')
