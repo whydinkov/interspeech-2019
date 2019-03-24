@@ -10,9 +10,15 @@ import argparse
 import numpy as np
 import pandas as pd
 import pickle
-#import tensorflow as tf
 from keras import backend as K
-#K.clear_session()
+from tensorflow import set_random_seed
+from numpy.random import seed
+
+np_seed = 61619
+tf_seed = 25383
+seed(np_seed)
+set_random_seed(tf_seed)
+
 
 parser = argparse.ArgumentParser()
 
@@ -105,8 +111,9 @@ for split_type in split_types:
     for aggregation_option in possible_aggregation_options:
         for experiment_setup in experiment_setups:
             sys.stdout = sys.__stdout__  # default print to console
-            #tf.keras.backend.clear_session()
+
             K.clear_session()
+
             print(f'{datetime.now()}')
             print(f'{split_type}, {aggregation_option}, {experiment_setup}')
             print(f'------------')
@@ -124,6 +131,9 @@ for split_type in split_types:
             transformation_options['v_tags'] = experiment_setup[3]
             transformation_options['open_smile'] = experiment_setup[4]
             transformation_options['speech_embeddings'] = experiment_setup[5]
+
+            print(f'tensorflow.set_random_seed {tf_seed}')
+            print(f'numpy.randomseed {seed}')
 
             result = evaluate_nn(data,
                                  labels,
@@ -171,5 +181,5 @@ df = pd.DataFrame(experiment_results, columns=['experiment',
                                                'mae_channels_test',
                                                'mae_channels_train'])
 
-total_results_path = join(output_path, 'total_results.csv')
-df.to_csv(total_results_path, index=False)
+total_results_path = join(output_path, f'{current_time}.xlsx')
+df.to_excel(total_results_path, index=False)

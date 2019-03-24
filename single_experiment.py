@@ -1,6 +1,13 @@
 from evaluation import evaluate_nn
 from data_retrieval import get_data
 from os import environ
+from tensorflow import set_random_seed
+from numpy.random import seed
+
+np_seed = 61619
+tf_seed = 25383
+seed(np_seed)
+set_random_seed(tf_seed)
 
 environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
