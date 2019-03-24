@@ -118,7 +118,7 @@ def create_transfomer(transformation_options):
     if transformation_options['nela_desc']:
         pipelines.append(_nela_desc_pipeline)
     if transformation_options['nela_subs']:
-        pipelines.append(_nela_desc_pipeline)
+        pipelines.append(_nela_subs_pipeline)
     if transformation_options['v_tags']:
         pipelines.append(_v_tags_pipeline)
     if transformation_options['open_smile']:
