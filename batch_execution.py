@@ -10,6 +10,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import pickle
+import tensorflow as tf
 
 parser = argparse.ArgumentParser()
 
@@ -102,6 +103,7 @@ for split_type in split_types:
     for aggregation_option in possible_aggregation_options:
         for experiment_setup in experiment_setups:
             sys.stdout = sys.__stdout__  # default print to console
+            tf.keras.backend.clear_session()
 
             print(f'{datetime.now()}')
             print(f'{split_type}, {aggregation_option}, {experiment_setup}')

@@ -35,7 +35,7 @@ def evaluate_nn(
     pp = pprint.PrettyPrinter(indent=4, stream=sys.stdout)
 
     if debug:
-        current_time = datetime.now().strftime('%Y%m%d %H%M%S')
+        current_time = datetime.now().strftime('%Y.%m.%d %H:%M:%S')
         print(f'Experiment: {current_time}')
         print(f'Classifier type: {clf_type}')
         print(f'Included features:')
