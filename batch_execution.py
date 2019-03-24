@@ -97,7 +97,8 @@ if input_args['split'] == 'both':
 else:
     split_types = [input_args['split']]
 
-output_path = environ['experiments_output']
+current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+output_path = join(environ['experiments_output'], current_time)
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 
