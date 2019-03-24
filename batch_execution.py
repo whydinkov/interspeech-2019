@@ -10,7 +10,9 @@ import argparse
 import numpy as np
 import pandas as pd
 import pickle
-import tensorflow as tf
+#import tensorflow as tf
+from keras import backend as K
+#K.clear_session()
 
 parser = argparse.ArgumentParser()
 
@@ -32,7 +34,7 @@ data, labels, dataset = get_data()
 
 # Experiment arguments
 
-clf_type = 'lr'  # lr, nn
+clf_type = 'nn'  # lr, nn
 
 split_options = {
     'type': 'video',  # video, episodes
@@ -103,8 +105,8 @@ for split_type in split_types:
     for aggregation_option in possible_aggregation_options:
         for experiment_setup in experiment_setups:
             sys.stdout = sys.__stdout__  # default print to console
-            tf.keras.backend.clear_session()
-
+            #tf.keras.backend.clear_session()
+            K.clear_session()
             print(f'{datetime.now()}')
             print(f'{split_type}, {aggregation_option}, {experiment_setup}')
             print(f'------------')
