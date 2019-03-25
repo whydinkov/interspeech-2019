@@ -67,12 +67,6 @@ _nela_desc_pipeline = ('nela_desc', Pipeline([
     ('norm', Normalizer())
 ]))
 
-_nela_subs_pipeline = ('nela_subs', Pipeline([
-    ('selector', ColumnSelector(columns='nela_subs')),
-    ('to_list', FunctionTransformer(lambda X: X.tolist(), validate=False)),
-    ('norm', Normalizer())
-]))
-
 _open_smile = ('open_smile', Pipeline([
     ('selector', ColumnSelector(columns='open_smile')),
     ('to_list', FunctionTransformer(lambda X: X.tolist(), validate=False)),
@@ -82,12 +76,6 @@ _open_smile = ('open_smile', Pipeline([
 _speech_embeddings = ('speech_embeddings', Pipeline([
     ('selector', ColumnSelector(columns='speech_embeddings')),
     ('to_list', FunctionTransformer(lambda X: X.tolist(), validate=False)),
-    ('norm', Normalizer())
-]))
-
-_bert_embeddings = ('bert', Pipeline([
-    ('selector', ColumnSelector(columns='bert')),
-    ('to_list', FunctionTransformer(lambda X: X.tolist(), validate=False))
 ]))
 
 
@@ -98,16 +86,12 @@ def create_transfomer(transformation_options):
         raise Exception('TransformerOptions. Missing "numerical".')
     if 'nela_desc' not in transformation_options:
         raise Exception('TransformerOptions. Missing "nela_desc".')
-    if 'nela_subs' not in transformation_options:
-        raise Exception('TransformerOptions. Missing "nela_subs".')
     if 'v_tags' not in transformation_options:
         raise Exception('TransformerOptions. Missing "v_tags".')
     if 'open_smile' not in transformation_options:
         raise Exception('TransformerOptions. Missing "open_smile".')
     if 'speech_embeddings' not in transformation_options:
         raise Exception('TransformerOptions. Missing "speech_embeddings".')
-    if 'bert' not in transformation_options:
-        raise Exception('TransformerOptions. Missing "bert".')
 
     pipelines = []
 
@@ -117,15 +101,11 @@ def create_transfomer(transformation_options):
         pipelines.append(_numerical_pipeline)
     if transformation_options['nela_desc']:
         pipelines.append(_nela_desc_pipeline)
-    if transformation_options['nela_subs']:
-        pipelines.append(_nela_subs_pipeline)
     if transformation_options['v_tags']:
         pipelines.append(_v_tags_pipeline)
     if transformation_options['open_smile']:
         pipelines.append(_open_smile)
     if transformation_options['speech_embeddings']:
         pipelines.append(_speech_embeddings)
-    if transformation_options['bert']:
-        pipelines.append(_bert_embeddings)
 
     return FeatureUnion(pipelines)
