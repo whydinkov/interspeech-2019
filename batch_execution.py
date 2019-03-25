@@ -129,8 +129,8 @@ for split_type in split_types:
             transformation_options['numerical'] = experiment_setup[1]
             transformation_options['nela_desc'] = experiment_setup[2]
             transformation_options['v_tags'] = experiment_setup[3]
-            transformation_options['bert'] = experiment_setup[4]
-            transformation_options['open_smile'] = experiment_setup[5]
+            transformation_options['open_smile'] = experiment_setup[4]
+            transformation_options['speech_embeddings'] = experiment_setup[5]
 
             print(f'tensorflow.set_random_seed {tf_seed}')
             print(f'numpy.randomseed {seed}')
