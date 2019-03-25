@@ -44,7 +44,6 @@ def data_transformation(channels, split_options):
                                comments,
                                duration,
                                nela_desc,
-                               nela_subs,
                                feats,
                                speech_embeddings,
                                bias])
@@ -116,7 +115,6 @@ def split_channel(channel_ids, dataset, split_options):
                                          'comments',
                                          'duration',
                                          'nela_desc',
-                                         'nela_subs',
                                          'open_smile',
                                          'speech_embeddings',
                                          'bias'])
