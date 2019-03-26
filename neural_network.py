@@ -32,8 +32,9 @@ def _create_model(input_dim, layers, optimizer):
 
         model.add(_generate_keras_layer(layer))
 
-    parallel_model = multi_gpu_model(model, gpus=2)
-    parallel_model.compile(
+    # parallel_model = multi_gpu_model(model, gpus=2)
+
+    model.compile(
         optimizer=optimizer,
         loss='categorical_crossentropy',
         metrics=['accuracy'])
