@@ -39,7 +39,7 @@ def _create_model(input_dim, layers, optimizer):
         loss='categorical_crossentropy',
         metrics=['accuracy'])
 
-    return parallel_model
+    return model
 
 
 def create_nn_clf(input_dim, nn_arch, verbose):
