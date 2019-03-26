@@ -66,26 +66,30 @@ nn_arch = {
 }
 
 transformation_options = {
-    'fulltext': 1,  # 0,1
+    'lsa_fulltext': 1,  # 0,1
     'numerical': 1,  # 0,1
     'nela_desc': 1,  # 0,1
-    'v_tags': 1,  # 0,1
+    'bert_subs': 1,  # 0,1
     'open_smile': 1,  # 0,1
     'speech_embeddings': 1,  # 0,1
 }
 
 
 experiment_setups = [
-    [1, 0, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 0, 0],
-    [1, 1, 1, 1, 1, 0],
-    [1, 1, 1, 1, 0, 1],
-    [1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0],  # only lsa_fulltext
+    [0, 1, 0, 0, 0, 0],  # only numerical
+    [0, 0, 1, 0, 0, 0],  # only nela_desc
+    [0, 0, 0, 1, 0, 0],  # only bert_subs
+    [0, 0, 0, 0, 1, 0],  # only open_smile(emo_1)
+    [0, 0, 0, 0, 0, 1],  # only speech_embeddings
+    [1, 1, 1, 1, 0, 0],  # text+numeric without sound
+    [1, 1, 1, 1, 1, 1],  # all possible together
+    [1, 1, 1, 1, 1, 0],  # text+numeric+open_smile
+    [1, 1, 1, 1, 0, 1],  # text+numeric+speech_embeddings
+    [1, 1, 1, 0, 1, 1],  # all without bert_subs
+    [1, 1, 0, 1, 1, 1],  # all without nela_desc
+    [1, 0, 1, 1, 1, 1],  # all without numerical
+    [0, 1, 1, 1, 1, 1],  # all without lsa_fulltext
 ]
 
 
@@ -125,10 +129,10 @@ for split_type in split_types:
             sys.stdout = open(join(output_path, file_path), 'w')
             split_options['type'] = split_type
 
-            transformation_options['fulltext'] = experiment_setup[0]
+            transformation_options['lsa_fulltext'] = experiment_setup[0]
             transformation_options['numerical'] = experiment_setup[1]
             transformation_options['nela_desc'] = experiment_setup[2]
-            transformation_options['v_tags'] = experiment_setup[3]
+            transformation_options['bert_subs'] = experiment_setup[3]
             transformation_options['open_smile'] = experiment_setup[4]
             transformation_options['speech_embeddings'] = experiment_setup[5]
 

@@ -45,10 +45,10 @@ nn_arch = {
 }
 
 transformation_options = {
-    'fulltext': 1,  # 0,1
+    'lsa_fulltext': 1,  # 0,1
     'numerical': 1,  # 0,1
     'nela_desc': 1,  # 0,1
-    'v_tags': 1,  # 0,1
+    'bert_subs': 1,  # 0,1
     'open_smile': 1,  # 0,1
     'speech_embeddings': 0,  # 0,1
 }
