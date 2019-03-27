@@ -66,7 +66,8 @@ nn_arch = {
 }
 
 transformation_options = {
-    'lsa_fulltext': 1,  # 0,1
+    'lsa_fulltext': 0,  # 0,1
+    'bert_fulltext': 1,  # 0,1
     'numerical': 1,  # 0,1
     'nela_desc': 1,  # 0,1
     'bert_subs': 1,  # 0,1
@@ -129,7 +130,7 @@ for split_type in split_types:
             sys.stdout = open(join(output_path, file_path), 'w')
             split_options['type'] = split_type
 
-            transformation_options['lsa_fulltext'] = experiment_setup[0]
+            transformation_options['bert_fulltext'] = experiment_setup[0]
             transformation_options['numerical'] = experiment_setup[1]
             transformation_options['nela_desc'] = experiment_setup[2]
             transformation_options['bert_subs'] = experiment_setup[3]

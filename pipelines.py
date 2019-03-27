@@ -87,10 +87,17 @@ _bert_subs_pipeline = ('bert_subs', Pipeline([
     ('to_list', FunctionTransformer(lambda X: X.tolist(), validate=False))
 ]))
 
+_bert_fulltext_pipeline = ('bert_fulltext', Pipeline([
+    ('selector', ColumnSelector(columns='bert_fulltext')),
+    ('to_list', FunctionTransformer(lambda X: X.tolist(), validate=False))
+]))
+
 
 def create_transfomer(transformation_options):
     if 'lsa_fulltext' not in transformation_options:
         raise Exception('TransformerOptions. Missing "lsa_fulltext".')
+    if 'bert_fulltext' not in transformation_options:
+        raise Exception('TransformerOptions. Missing "bert_fulltext".')
     if 'numerical' not in transformation_options:
         raise Exception('TransformerOptions. Missing "numerical".')
     if 'nela_desc' not in transformation_options:
@@ -104,8 +111,8 @@ def create_transfomer(transformation_options):
 
     pipelines = []
 
-    if transformation_options['lsa_fulltext']:
-        pipelines.append(_lsa_fulltext_pipeline)
+    if transformation_options['bert_fulltext']:
+        pipelines.append(_bert_fulltext_pipeline)
     if transformation_options['numerical']:
         pipelines.append(_numerical_pipeline)
     if transformation_options['nela_desc']:
