@@ -6,7 +6,7 @@ To run code with same data, use dataset which can be found at [kaggle](https://w
 
 ## Prerequisites
 * Setup Python 3.7+, conda
-* Download conda environment, which can be found [here](https://anaconda.org/yoandinkov/interspeech)
+* Install environment via `conda env create yoandinkov/interspeech` or check it [here](https://anaconda.org/yoandinkov/interspeech)
 * Set up _.env_ file, information can be found [here](https://github.com/yoandinkov/interspeech/wiki/https://github.com/yoandinkov/interspeech/wiki/Environment-setup)
 
 ## Run experiments locally
