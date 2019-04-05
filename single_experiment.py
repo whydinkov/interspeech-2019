@@ -45,7 +45,7 @@ nn_arch = {
 }
 
 transformation_options = {
-    'lsa_fulltext': 1,  # 0,1
+    'bert_fulltext': 1,  # 0,1
     'numerical': 1,  # 0,1
     'nela_desc': 1,  # 0,1
     'bert_subs': 1,  # 0,1

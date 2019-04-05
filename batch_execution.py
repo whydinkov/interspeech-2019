@@ -66,7 +66,6 @@ nn_arch = {
 }
 
 transformation_options = {
-    'lsa_fulltext': 0,  # 0,1
     'bert_fulltext': 1,  # 0,1
     'numerical': 1,  # 0,1
     'nela_desc': 1,  # 0,1
@@ -77,7 +76,7 @@ transformation_options = {
 
 
 experiment_setups = [
-    [1, 0, 0, 0, 0, 0],  # only lsa_fulltext
+    [1, 0, 0, 0, 0, 0],  # only bert_fulltext
     [0, 1, 0, 0, 0, 0],  # only numerical
     [0, 0, 1, 0, 0, 0],  # only nela_desc
     [0, 0, 0, 1, 0, 0],  # only bert_subs
@@ -90,7 +89,7 @@ experiment_setups = [
     [1, 1, 1, 0, 1, 1],  # all without bert_subs
     [1, 1, 0, 1, 1, 1],  # all without nela_desc
     [1, 0, 1, 1, 1, 1],  # all without numerical
-    [0, 1, 1, 1, 1, 1],  # all without lsa_fulltext
+    [0, 1, 1, 1, 1, 1],  # all without bert_fulltext
 ]
 
 

@@ -30,15 +30,15 @@ class ColumnSelector(BaseEstimator, TransformerMixin):
                 "The DataFrame does not include the columns: %s" % cols_error)
 
 
-_lsa_fulltext_pipeline = ('lsa_fulltext', Pipeline([
-    ('selector', ColumnSelector(columns='fulltext')),
-    ('tfidf', TfidfVectorizer(sublinear_tf=True,
-                              min_df=5,
-                              norm='l2',
-                              ngram_range=(1, 2),
-                              stop_words='english')),
-    ('lsa', TruncatedSVD(200))
-]))
+# _lsa_fulltext_pipeline = ('lsa_fulltext', Pipeline([
+#     ('selector', ColumnSelector(columns='fulltext')),
+#     ('tfidf', TfidfVectorizer(sublinear_tf=True,
+#                               min_df=5,
+#                               norm='l2',
+#                               ngram_range=(1, 2),
+#                               stop_words='english')),
+#     ('lsa', TruncatedSVD(200))
+# ]))
 
 _numerical_pipeline = ('numerical', Pipeline([
     ('selector', ColumnSelector(columns=[
@@ -94,8 +94,6 @@ _bert_fulltext_pipeline = ('bert_fulltext', Pipeline([
 
 
 def create_transfomer(transformation_options):
-    if 'lsa_fulltext' not in transformation_options:
-        raise Exception('TransformerOptions. Missing "lsa_fulltext".')
     if 'bert_fulltext' not in transformation_options:
         raise Exception('TransformerOptions. Missing "bert_fulltext".')
     if 'numerical' not in transformation_options:
