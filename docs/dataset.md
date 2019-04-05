@@ -26,16 +26,15 @@ Dataset consists of 421 ChannelObjects, that have following signature:
 }
 ```
 #### Properties
-* media - check MediaObject
+* media - check [MediaObject](#mediaobject)
 * youtube_id - coresponding to channel_id given by YouTube
-* snippet - check ChannelSnippetObject
-* statistics - check ChannelStatisticsObject
+* snippet - check [ChannelSnippetObject](#ChannelSnippetObject)
+* statistics - check [ChannelStatisticsObject](#ChannelStatisticsObject)
 * topicDetails - list of string representing categories of generated topics by YouTube. More info [here](https://developers.google.com/youtube/v3/docs/channels#topicDetails)
-* videos_information - check ChannelVideosInformationObject
-* language_information - check ChannelLanguageInformationObject
+* videos_information - check [ChannelVideosInformationObject](#ChannelVideosInformationObject)
+* language_information - check [ChannelLanguageInformationObject](#ChannelLanguageInformationObject)
 * bias - possible values `extremeleft`, `left`, `leastbiased`, `right`, `extremeright`.
-* videos - list of VideoObject. Check it for more info.
-
+* videos - list of [VideoObject](#VideoObject). Check it for more info.
 
 ## ChannelSnippetObject
 #### Resource representation
@@ -100,19 +99,19 @@ Represent fetched data from https://mediabiasfactcheck.com.
 ```
 {
     youtube_id: string,
-    snippet:{} VideoSnippetObject
-    contentDetails:{} VideoContentObject
-    status:{} VideoStatusObject
-    statistics:{} VideoStatisticsObject
-    topicDetails:{} VideoTopicDetailsObject
-    localizations:{} VideoLocalizationObject
-    background_sounds:[BackgroundSoundObject] 
-    processed:boolean
-    nela:{} VideoNelaObject
-    captions:{} VideoCaptionsObject
-    open_smile:{} VideoOpenSmileObject
-    speech_embeddings:{} VideoSpeechEmbeddingsObject
-    bert:{} VideoBertObject
+    snippet: VideoSnippetObject
+    contentDetails: VideoContentObject
+    status: VideoStatusObject
+    statistics: VideoStatisticsObject
+    topicDetails: VideoTopicDetailsObject
+    localizations: VideoLocalizationObject
+    background_sounds: [BackgroundSoundObject] 
+    processed: boolean
+    nela: VideoNelaObject
+    captions: VideoCaptionsObject
+    open_smile: VideoOpenSmileObject
+    speech_embeddings: VideoSpeechEmbeddingsObject
+    bert: VideoBertObject
 }
 ```
 #### Properties
@@ -123,6 +122,11 @@ Represent fetched data from https://mediabiasfactcheck.com.
 * statistics - check [here](https://developers.google.com/youtube/v3/docs/videos#statistics)
 * topicDetails - check [here](https://developers.google.com/youtube/v3/docs/videos#topicDetails)
 * localitzations - check [here](https://developers.google.com/youtube/v3/docs/videos#localizations)
+* nela - check [VideoNelaObject](#VideoNelaObject)
+* captions - check [VideoCaptionsObject](#VideoCaptionsObject)
+* open_smile - check [VideoOpenSmileObject](#VideoOpenSmileObject)
+* speech_embeddings - check [VideoSpeechEmbeddingsObject](#VideoSpeechEmbeddingsObject)
+* bert - check [VideoSpeechEmbeddingsObject](#VideoSpeechEmbeddingsObject)
 
 ## VideoNelaObject
 #### Resource representation
