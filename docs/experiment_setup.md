@@ -61,5 +61,12 @@ transformation_options = {
 }
 ```
 
-# Single vs batch execution
-To actually run experiments you will need to execute either `single_experiment.py` or `batch_execution.py`.
+# Experiment execution
+To actually run experiments you will need to execute `src\main.py`. Please revisit the file
+before running experiments. There are several command line options:
+* `--single` - If you don't need to run the whole batch execution you can run a single
+experiment, with this option you can set up transformation_options for a single text. If none
+all batch experiments will be executed. Example: `--single 1,1,1,1,1,0`. Default __None__.
+* `--split` - Sets [split strategy](#split-strategy). Possible values `video`, `episodes`, `both`.
+`both` - executes the same experiments twice for `video` and `episodes`. Default `video`.
+* `--agg` - Sets [aggregation strategy](#aggregation-strategy).Possible values `max`, `avg`, `both`. `both` - executes the same experiments twice for `avg` and `max`. Default `avg`.
