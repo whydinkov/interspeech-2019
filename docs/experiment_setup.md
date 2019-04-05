@@ -50,6 +50,7 @@ nn_arch = {
 
 Shorthand of writing keras model, for layers currently supporting Dense, Dropout. To check how this option is being used check [neural_network](https://github.com/yoandinkov/interspeech-2019/blob/master/src/models/neural_network.py) file.
 
+### Transformation options
 ```
 transformation_options = {
     'bert_fulltext': 1,  # 0,1
@@ -60,6 +61,8 @@ transformation_options = {
     'speech_embeddings': 0,  # 0,1
 }
 ```
+Each group of embeddings can be activated or deactivated. With that said, the final embeddings that feed nn/lr is a joined combination of all activated features in one long vector.
+Example `[{activate_feature_group1 x768 float}, {activated_feature_group2 x600 float}]` thus generating a vector with (768+600) features.
 
 # Experiment execution
 To actually run experiments you will need to execute `src\main.py`. Please revisit the file
