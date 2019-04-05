@@ -126,7 +126,7 @@ Represent fetched data from https://mediabiasfactcheck.com.
 * captions - check [VideoCaptionsObject](#VideoCaptionsObject)
 * open_smile - check [VideoOpenSmileObject](#VideoOpenSmileObject)
 * speech_embeddings - check [VideoSpeechEmbeddingsObject](#VideoSpeechEmbeddingsObject)
-* bert - check [VideoSpeechEmbeddingsObject](#VideoSpeechEmbeddingsObject)
+* bert - check [VideoBertObject](#VideoBertObject)
 
 ## VideoNelaObject
 #### Resource representation
@@ -188,7 +188,7 @@ If video contains background music (ex. "applause", "music").
 }
 ```
 #### Properties
-Represents (by keys) OpenSmile features extracted from config.
+Represents by keys OpenSmile configs used for features extraction.
 For each config there is at least one sub key ('1') and can contain up to '5'
 that represent the speech episode for video from where features were extracted.
 
@@ -204,7 +204,7 @@ that represent the speech episode for video from where features were extracted.
 }
 ```
 #### Properties
-For i-vector features there is at least one sub key ('1') and can contain up to '5'
+For i-vector features there is at least one key ('1') and can contain up to '5'
 that represent the speech episode for video from where features were extracted.
 
 ## VideoBertObject
@@ -219,7 +219,7 @@ that represent the speech episode for video from where features were extracted.
 }
 ```
 #### Properties
-Represents (by keys) text source for generating BERT features.
+Represents by keys text source for generating BERT features. Check [BertObject](#BertObject) for more info.
 
 ## BertObject
 #### Resource representation
