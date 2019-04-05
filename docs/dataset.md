@@ -8,9 +8,10 @@ Dataset is available @kaggle platform, and can be downloaded or used from [here]
 
 # Dataset signature
 
-Dataset consists of 421 channel object, that have following signature
+Dataset consists of 421 ChannelObjects, that have following signature:
 
-### ChannelObject
+## ChannelObject
+#### Resource representation
 ```
 {
     media: MediaObject,
@@ -18,14 +19,26 @@ Dataset consists of 421 channel object, that have following signature
     snippet: ChannelSnippetObject,
     statistics: ChannelStatisticsObject,
     topicDetails:[string],
-    videos_information:ChannelVideosInformationObject,
-    language_information:ChannelLanguageInformationObject,
+    videos_information: ChannelVideosInformationObject,
+    language_information: ChannelLanguageInformationObject,
     bias:string,
     videos:[VideoObject]
 }
 ```
+#### Properties
+* media - check MediaObject
+* youtube_id - coresponding to channel_id given by YouTube
+* snippet - check ChannelSnippetObject
+* statistics - check ChannelStatisticsObject
+* topicDetails - list of string representing categories of generated topics by YouTube. More info [here](https://developers.google.com/youtube/v3/docs/channels#topicDetails)
+* videos_information - check ChannelVideosInformationObject
+* language_information - check ChannelLanguageInformationObject
+* bias - possible values `extremeleft`, `left`, `leastbiased`, `right`, `extremeright`.
+* videos - list of VideoObject. Check it for more info.
 
-### ChannelSnippetObject
+
+## ChannelSnippetObject
+#### Resource representation
 ```
 {
     title:string,
@@ -33,9 +46,12 @@ Dataset consists of 421 channel object, that have following signature
     publishedAt: date
 }
 ```
+#### Properties
+Check [here](https://developers.google.com/youtube/v3/docs/channels#snippet)
 
 
-### ChannelStatisticsObject
+## ChannelStatisticsObject
+#### Resource representation
 ```
 {
     viewCount: number,
@@ -43,8 +59,27 @@ Dataset consists of 421 channel object, that have following signature
     videoCount: number
 }
 ```
+#### Properties
+Check [here](https://developers.google.com/youtube/v3/docs/channels#statistics)
 
-### MediaObject
+
+## ChannelVideosInformationObject
+#### Resource representation
+```
+{
+    videos_count: number,
+    video_ids: [string]
+}
+```
+#### Properties
+As this dataset doesn't represent all videos in a given channel (for example
+[CNN](https://www.youtube.com/user/CNN) has more then 140K videos) this represent
+the actual video count for videos we have for this particular channel in dataset
+as well with their coresponding YouTube ids.
+
+
+## MediaObject
+#### Resource representation
 ```
 {
     factual_reporting_label: string, 
@@ -57,3 +92,141 @@ Dataset consists of 421 channel object, that have following signature
     bias:string
 }
 ```
+#### Properties
+Represent fetched data from https://mediabiasfactcheck.com.
+
+## VideoObject
+#### Resource representation
+```
+{
+    youtube_id: string,
+    snippet:{} VideoSnippetObject
+    contentDetails:{} VideoContentObject
+    status:{} VideoStatusObject
+    statistics:{} VideoStatisticsObject
+    topicDetails:{} VideoTopicDetailsObject
+    localizations:{} VideoLocalizationObject
+    background_sounds:[BackgroundSoundObject] 
+    processed:boolean
+    nela:{} VideoNelaObject
+    captions:{} VideoCaptionsObject
+    open_smile:{} VideoOpenSmileObject
+    speech_embeddings:{} VideoSpeechEmbeddingsObject
+    bert:{} VideoBertObject
+}
+```
+#### Properties
+* youtube_id - id given by YouTube
+* snippet - check [here](https://developers.google.com/youtube/v3/docs/videos#snippet)
+* contentDetails - check [here](https://developers.google.com/youtube/v3/docs/videos#contentDetails)
+* status - check [here](https://developers.google.com/youtube/v3/docs/videos#status)
+* statistics - check [here](https://developers.google.com/youtube/v3/docs/videos#statistics)
+* topicDetails - check [here](https://developers.google.com/youtube/v3/docs/videos#topicDetails)
+* localitzations - check [here](https://developers.google.com/youtube/v3/docs/videos#localizations)
+
+## VideoNelaObject
+#### Resource representation
+```
+{
+    title_subs: [float],
+    title_description: [float],
+}
+```
+#### Properties
+* title_subs - generated 260 features from [NELA Toolkit](http://nelatoolkit.science/) with video's title and subtitles
+* title_description - generated 260 features from [NELA Toolkit](http://nelatoolkit.science/) with video's title and description
+
+## VideoCaptionsObject
+#### Resource representation
+```
+{
+    'background': [CaptionObject]
+}
+```
+#### Properties
+If video contains background music (ex. "applause", "music").
+
+## CaptionsObject
+#### Resource representation
+```
+{
+    start: string,
+    end: string,
+    text: string,
+    only_sound: boolean
+}
+```
+#### Properties
+* start - start time of caption in 'HH:MM:SS' format.
+* end - end time of caption in 'HH:MM:SS' format.
+* text - caption text
+* only_sound - checks if there were additional text outside background music for this particular caption
+
+
+## VideoOpenSmileObject
+#### Resource representation
+```
+{
+    'IS09_emotion': {
+        '1': [float],
+        '2': [float],
+        '3': [float],
+        '4': [float],
+        '5': [float],
+    },
+    'IS12_speaker_trait': {
+        '1': [float],
+        '2': [float],
+        '3': [float],
+        '4': [float],
+        '5': [float],
+    }
+}
+```
+#### Properties
+Represents (by keys) OpenSmile features extracted from config.
+For each config there is at least one sub key ('1') and can contain up to '5'
+that represent the speech episode for video from where features were extracted.
+
+## VideoSpeechEmbeddingsObject
+#### Resource representation
+```
+{
+    '1': [float],
+    '2': [float],
+    '3': [float],
+    '4': [float],
+    '5': [float],
+}
+```
+#### Properties
+For i-vector features there is at least one sub key ('1') and can contain up to '5'
+that represent the speech episode for video from where features were extracted.
+
+## VideoBertObject
+#### Resource representation
+```
+{
+    'subs': BertObject,
+    'title': BertObject,
+    'description': BertObject,
+    'tags': BertObject,
+    'fulltext': BertObject
+}
+```
+#### Properties
+Represents (by keys) text source for generating BERT features.
+
+## BertObject
+#### Resource representation
+```
+{
+    'REDUCE_MEAN': [float],
+    'REDUCE_MAX': [float],
+    'REDUCE_MEAN_MAX': [float],
+    'CLS_TOKEN': [float],
+    'SEP_TOKEN': [float],
+}
+```
+#### Properties
+* Check [here](https://github.com/hanxiao/bert-as-service#q-what-are-the-available-pooling-strategies)
