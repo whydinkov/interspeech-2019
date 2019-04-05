@@ -151,9 +151,9 @@ for split_type in split_types:
             K.clear_session()
 
             current_experiment_label = (f'{datetime.now():%H:%M:%S}, '
-                                        f'{split_type}, '
-                                        f'{aggregation_option}, '
-                                        f'{experiment_setup}')
+                                        f'split: {split_type}, '
+                                        f'agg: {aggregation_option}, '
+                                        f'feats: {experiment_setup}')
 
             print(current_experiment_label)
 
