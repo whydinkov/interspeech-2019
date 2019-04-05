@@ -30,9 +30,9 @@ Same as for aggregating we need a default strategy to split channels, so there a
 * mean - if _type_ is video, then you can decide if mean should be used (Mean over all available speech episodes) (True) or use only the first speech episode (False).
 * config - select which configuration should be used for Open Smile embeddings
 * speech_embeddings.mean - Same as _mean_ but for speech_embeddings.
-```
 
 ### NN architecture
+```
 nn_arch = {
     'layers': [
         ('dropout', 0.2),
