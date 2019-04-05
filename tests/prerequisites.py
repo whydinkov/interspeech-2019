@@ -26,3 +26,4 @@ def test_dataset():
 if __name__ == "__main__":
     test_libs()
     test_dataset()
+    print('Tests completed. No errors found.')
