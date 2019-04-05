@@ -115,6 +115,8 @@ def parse_transformation(input):
     if number not in (0, 1):
         raise Exception("Possible values for transformation: (0, 1)")
 
+    return number
+
 
 if input_args['single']:
     experiment_setup = [parse_transformation(x)
