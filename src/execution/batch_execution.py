@@ -124,7 +124,7 @@ for split_type in split_types:
 
             file_path = (f'{split_type}_{aggregation_option}_'
                          f'{"".join([str(x) for x in experiment_setup])}'
-                         '.txt')
+                         '.log')
 
             sys.stdout = open(join(output_path, file_path), 'w')
             split_options['type'] = split_type
