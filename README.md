@@ -2,7 +2,7 @@
 Current repository is used as an experiment evaluation system. Generated results are being used in a research inspired by following conference https://www.interspeech2019.org/.
 
 ## Dataset
-To run code locally, you'll need a specific dataset as a starting point which can be found at kaggle [kaggle](https://www.kaggle.com/yoandinkov/youtubepoliticalbias). More information about dataset can be found in repository's [docs files](docs/dataset.md). There is an additional step of transforming dataset to a pickle instance which is explained [here](docs/environment_setup.md#environment-variables)
+To run code locally, you'll need a specific dataset as a starting point which can be found at [Кaggle](https://www.kaggle.com/yoandinkov/youtubepoliticalbias). More information about dataset can be found in repository's [docs files](docs/dataset.md). There is an additional step of transforming dataset to a pickle instance which is explained [here](docs/environment_setup.md#environment-variables)
 
 ## Prerequisites
 * Setup `python 3.7+`, `conda` on Ubuntu 18.04 LTS
