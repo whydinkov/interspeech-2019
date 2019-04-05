@@ -21,3 +21,8 @@ def test_dataset():
         dataset = pickle.load(f)
 
     assert dataset, 'loading dataset failed.'
+
+
+if __name__ == "__main__":
+    test_libs()
+    test_dataset()
