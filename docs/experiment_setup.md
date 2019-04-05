@@ -73,3 +73,6 @@ all batch experiments will be executed. Example: `--single 1,1,1,1,1,0`. Default
 * `--split` - Sets [split strategy](#split-strategy). Possible values `video`, `episodes`, `both`.
 `both` - executes the same experiments twice for `video` and `episodes`. Default `video`.
 * `--agg` - Sets [aggregation strategy](#aggregation-strategy).Possible values `max`, `avg`, `both`. `both` - executes the same experiments twice for `avg` and `max`. Default `avg`.
+
+# Logger, debug, verbosity
+By default all experiment results are being logged in a specified by user folder (more info [here](docs/environment_setup.md)). Once a batch of experiments are being done results are saved into a specific folder `path_to_experiment_results\{%Y%m%D}_{%H%M%S}\` containing all results in a specific format `{split_strategy}_{agg_strategy}_{transformation_options}.log` and a `.xslx` file that combines all logs into a single file. Log file has more information in terms of confustion_matrix, class distribution, MAE, F1 score, accuracy. While in excel file we select only a few of those metrics. To use this logger `debug` parameter in `evaluate_nn` should be set to **True**. You can set keras verbosity level by setting `verbosity` parameter in `evaluate_nn`.
