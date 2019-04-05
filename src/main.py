@@ -1,18 +1,18 @@
-from evaluation import evaluate_nn
-from data_retrieval import get_data
-from os import environ
 import sys
 import os
+import argparse
+import pickle
+from datetime import datetime
+from os import environ
 from os.path import join
 from dotenv import load_dotenv
-from datetime import datetime
-import argparse
 import numpy as np
 import pandas as pd
-import pickle
 from keras import backend as K
 from tensorflow import set_random_seed
 from numpy.random import seed
+from evaluation.evaluation import evaluate_nn
+from data_retrieval.data_retrieval import get_data
 
 np_seed = 61619
 tf_seed = 25383
@@ -26,7 +26,9 @@ parser.add_argument(
     '--split', help='Possible values: "video", "episodes", "both". Used to split channel to classifiable parts.')
 parser.add_argument(
     '--agg', help='Possible values: "max", "avg", "both". Used to aggregate classified values to channel.')
-
+parser.add_argument(
+    '--single', help='Six bit values, split by "," corelated to transformation_options'
+)
 load_dotenv()
 
 environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -92,8 +94,24 @@ experiment_setups = [
     [0, 1, 1, 1, 1, 1],  # all without bert_fulltext
 ]
 
-
 input_args = vars(parser.parse_args())
+
+
+def parse_transformation(input):
+    number = int(input)
+
+    if number not in (0, 1):
+        raise Exception("Possible values for transformation: (0, 1)")
+
+
+if input_args['single']:
+    experiment_setup = [parse_transformation(x)
+                        for x in input_args['single'].split(',')]
+
+    if len(experiment_setup) != 6:
+        raise Exception("transformation_options has mandatory length: 6")
+
+    experiment_setups = [experiment_setup]
 
 if input_args['agg'] == 'both':
     possible_aggregation_options = ['avg', 'max']

@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from data_retrieval import get_dataset
+from data_retrieval.data_retrieval import get_dataset
 
 
 def data_transformation(channels, split_options):

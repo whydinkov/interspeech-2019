@@ -2,16 +2,18 @@ import sys
 import pprint
 import numpy as np
 from datetime import datetime
-from aggregate import get_channels_bias_avg, get_channels_bias_max
-from aggregate import get_labels_from_proba
-from neural_network import create_nn_clf
-from logistic_regression import create_clf
-from preprocessing import split_channel
-from pipelines import create_transfomer
+from preprocessing.aggregate import get_channels_bias_avg
+from preprocessing.aggregate import get_channels_bias_max
+from preprocessing.aggregate import get_labels_from_proba
+from models.neural_network import create_nn_clf
+from models.logistic_regression import create_clf
+from preprocessing.preprocessing import split_channel
+from features.pipelines import create_transfomer
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from sklearn.metrics import mean_absolute_error
 from scoring import calc_mae
+
 import pandas as pd
 from timeit import default_timer as timer
 from tabulate import tabulate
