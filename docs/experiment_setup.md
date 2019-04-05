@@ -48,7 +48,7 @@ nn_arch = {
 }
 ```
 
-Shorthand of writing keras model, for layers currently supporting Dense, Dropout. To check how this option is being used check [neural_network](https://github.com/yoandinkov/interspeech/blob/master/neural_network.py) file.
+Shorthand of writing keras model, for layers currently supporting Dense, Dropout. To check how this option is being used check [neural_network](https://github.com/yoandinkov/interspeech-2019/blob/master/src/models/neural_network.py) file.
 
 ```
 transformation_options = {
