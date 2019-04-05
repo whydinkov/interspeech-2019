@@ -12,7 +12,7 @@ from features.pipelines import create_transfomer
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from sklearn.metrics import mean_absolute_error
-from scoring import calc_mae
+from .scoring import calc_mae
 
 import pandas as pd
 from timeit import default_timer as timer
