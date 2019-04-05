@@ -1,4 +1,4 @@
-from constants import Labels
+from misc.constants import Labels
 
 
 def get_channels_bias_avg(channel_ids, label_probabilities):

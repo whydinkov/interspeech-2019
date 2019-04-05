@@ -1,51 +1,65 @@
-from evaluation import evaluate_nn
-from data_retrieval import get_data
-from os import environ
 import sys
 import os
+import argparse
+import pickle
+from datetime import datetime
+from os import environ
 from os.path import join
 from dotenv import load_dotenv
-from datetime import datetime
-import argparse
 import numpy as np
 import pandas as pd
-import pickle
 from keras import backend as K
 from tensorflow import set_random_seed
 from numpy.random import seed
+from evaluation.evaluation import evaluate_nn
+from data_retrieval.data_retrieval import get_data
 
+# Environment variables
+load_dotenv()
+environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # Verbosity level is too high by default
+
+# Set predifined random seeds for both numpy and tensorflow
+# to get reproduceable experiment results.
+# Comment next 4 lines, to remove predefined random seeds.
 np_seed = 61619
 tf_seed = 25383
 seed(np_seed)
 set_random_seed(tf_seed)
 
-
+# Input arguments
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-    '--split', help='Possible values: "video", "episodes", "both". Used to split channel to classifiable parts.')
+    '--split',
+    help=('Possible values: "video", "episodes", "both".'
+          'Used to split channel to classifiable parts.'),
+    default='video'
+)
+
 parser.add_argument(
-    '--agg', help='Possible values: "max", "avg", "both". Used to aggregate classified values to channel.')
+    '--agg',
+    help=('Possible values: "max", "avg", "both".'
+          'Used to aggregate classified values to channel.'),
+    default='avg'
+)
 
-load_dotenv()
+parser.add_argument(
+    '--single',
+    help='Six bit values, split by "," corelated to transformation_options'
+)
 
-environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-
+# Load dataset
 data, labels, dataset = get_data()
 
-
-# Set predifined random seeds for both numpy and tensorflow
-# to get reproduceable experiments
-
 # Experiment arguments
-
+# Possible values are visible in comments after properties
 clf_type = 'nn'  # lr, nn
 
 split_options = {
     'type': 'video',  # video, episodes
     'mean': False,  # True, False
-    'config': 'IS09_emotion',  # IS09_emotion,
+    'config': 'IS09_emotion',  # IS09_emotion, IS12_speaker_trait
     'speech_embeddings': {
         'mean': False  # True, False
     }
@@ -92,8 +106,26 @@ experiment_setups = [
     [0, 1, 1, 1, 1, 1],  # all without bert_fulltext
 ]
 
-
 input_args = vars(parser.parse_args())
+
+
+def parse_transformation(input):
+    number = int(input)
+
+    if number not in (0, 1):
+        raise Exception("Possible values for transformation: (0, 1)")
+
+    return number
+
+
+if input_args['single']:
+    experiment_setup = [parse_transformation(x)
+                        for x in input_args['single'].split(',')]
+
+    if len(experiment_setup) != 6:
+        raise Exception("transformation_options has mandatory length: 6")
+
+    experiment_setups = [experiment_setup]
 
 if input_args['agg'] == 'both':
     possible_aggregation_options = ['avg', 'max']
@@ -118,13 +150,16 @@ for split_type in split_types:
 
             K.clear_session()
 
-            print(f'{datetime.now()}')
-            print(f'{split_type}, {aggregation_option}, {experiment_setup}')
-            print(f'------------')
+            current_experiment_label = (f'{datetime.now():%H:%M:%S}, '
+                                        f'{split_type}, '
+                                        f'{aggregation_option}, '
+                                        f'{experiment_setup}')
+
+            print(current_experiment_label)
 
             file_path = (f'{split_type}_{aggregation_option}_'
                          f'{"".join([str(x) for x in experiment_setup])}'
-                         '.txt')
+                         '.log')
 
             sys.stdout = open(join(output_path, file_path), 'w')
             split_options['type'] = split_type
