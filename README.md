@@ -1,19 +1,17 @@
-## Conference
-https://www.interspeech2019.org/
+## Motivation
+Current repository is used as an experiment evaluation system. Generated results are being used in a research inspired by following conference https://www.interspeech2019.org/.
 
 ## Dataset
-To run code with same data, use dataset which can be found at [kaggle](https://www.kaggle.com/yoandinkov/youtubepoliticalbias) as well description to it at repository's [wiki](https://github.com/yoandinkov/interspeech/wiki/Dataset). Dataset in kaggle is not suitable directly for running tests into it as code expects pickle
+To run code locally, you'll need a specific dataset as a starting point which can be found at kaggle [kaggle](https://www.kaggle.com/yoandinkov/youtubepoliticalbias). More information about dataset can be found in repository's [docs files](docs/dataset.md). There is an additional step of transforming dataset to a pickle instance which is explained [here](docs/environment_setup.md#environment-variables)
 
 ## Prerequisites
 * Setup `python 3.7+`, `conda` on Ubuntu 18.04 LTS
 * Install environment via `conda env create yoandinkov/interspeech` or check it [here](https://anaconda.org/yoandinkov/interspeech)
-* Set up _.env_ file, information can be found [here](https://github.com/yoandinkov/interspeech/wiki/https://github.com/yoandinkov/interspeech/wiki/Environment-setup)
+* Set up `.env_` file, information can be found [here](docs/environment_setup.md)
+* Open `tests/` and run `python prerequisites.py` if no error messages are displayed, you are good to go
 
-## Run experiments locally
-* how to change experiment setup and what options are available please check [here](https://github.com/yoandinkov/interspeech/wiki/https://github.com/yoandinkov/interspeech/wiki/Experiment-setup) 
-* to run a single experiment execute single_experiment.py
-* to run batch experiments execute batch_experiments.py
-
+## Run experiments
+* Open `src/` and run `python main.py` - there are default values so by only doing this code will be executed, however it's highly recommended to read [the experiment setup documentation](docs/experiment_setup.md) first.
 
 ## Feedback
-* Any feedback is highly appreatied for specific questions/code reviews a new issues/PRs can be opened.
+* Any feedback is appreatied. For specific questions/code reviews new issues/PRs can be opened/created.
