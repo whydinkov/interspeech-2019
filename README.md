@@ -5,7 +5,7 @@ https://www.interspeech2019.org/
 To run code with same data, use dataset which can be found at [kaggle](https://www.kaggle.com/yoandinkov/youtubepoliticalbias) as well description to it at repository's [wiki](https://github.com/yoandinkov/interspeech/wiki/Dataset). Dataset in kaggle is not suitable directly for running tests into it as code expects pickle
 
 ## Prerequisites
-* Setup Python 3.7+, conda
+* Setup `python 3.7+`, `conda` on Ubuntu 18.04 LTS
 * Install environment via `conda env create yoandinkov/interspeech` or check it [here](https://anaconda.org/yoandinkov/interspeech)
 * Set up _.env_ file, information can be found [here](https://github.com/yoandinkov/interspeech/wiki/https://github.com/yoandinkov/interspeech/wiki/Environment-setup)
 
