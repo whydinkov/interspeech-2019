@@ -7,7 +7,7 @@ To run code locally, you'll need a specific dataset as a starting point which ca
 ## Prerequisites
 * Setup `python 3.7+`, `conda` on Ubuntu 18.04 LTS
 * Install environment via `conda env create yoandinkov/interspeech` or check it [here](https://anaconda.org/yoandinkov/interspeech)
-* Set up `.env_` file, information can be found [here](docs/environment_setup.md)
+* Set up `.env` file, information can be found [here](docs/environment_setup.md)
 * Open `tests/` and run `python prerequisites.py` if no error messages are displayed, you are good to go
 
 ## Run experiments
