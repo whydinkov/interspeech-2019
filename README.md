@@ -15,3 +15,8 @@ To run code locally, you'll need a specific dataset as a starting point which ca
 
 ## Feedback
 * Any feedback is appreatied. For specific questions/code reviews new issues/PRs can be opened/created.
+
+## Acknowledgements
+This research is part of the [Tanbih project](http://tanbih.qcri.org/), which aims to limit the effect of "fake news", propaganda and media bias by making users aware of what they are reading. The project is developed in collaboration between the Qatar Computing Research Institute (QCRI), HBKU and the MIT Computer Science and Artificial Intelligence Laboratory (CSAIL).
+
+This research is also partially supported by Project UNITe BG05M2OP001-1.001-0004 funded by the OP "Science and Education for Smart Growth" and the EU via the ESI Funds.
